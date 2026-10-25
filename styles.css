@@ -244,7 +244,7 @@ footer .fs{display:flex;justify-content:center;gap:10px 28px;flex-wrap:wrap;marg
 
 /* ===== Corazón flotante (blanco + difference: negro sobre claro, blanco sobre oscuro) ===== */
 .cora{position:fixed;left:3px;top:0;width:22px;z-index:25;pointer-events:none;mix-blend-mode:difference;will-change:transform}
-.cora img{display:block;width:100%;height:auto;animation:cora 5s ease-in-out infinite}
+.cora img{display:block;width:100%;height:auto;filter:invert(1);animation:cora 5s ease-in-out infinite}
 @keyframes cora{0%,100%{transform:translateY(0) rotate(-6deg) scale(1)}25%{transform:translateY(-8px) rotate(4deg) scale(1.12)}50%{transform:translateY(-3px) rotate(6deg) scale(1)}75%{transform:translateY(-10px) rotate(-3deg) scale(1.1)}}
 @media(min-width:760px){.cora{left:10px;width:42px}}
 
