@@ -297,6 +297,94 @@ $$('.two img.r').forEach(e => e.addEventListener('click', () => {
   const i = e.tagName == 'IMG' ? e : $('img', e); di.src = i.src; di.alt = i.alt; d.showModal();
 }));
 d.addEventListener('click', () => d.close());
+d.addEventListener('close', () => d.classList.remove('tall'));
+
+/* ---------- Galería circular de cursos (Lovely Brows) ----------
+   Fotos: edita los <figure> dentro de .cur-ring en index.html (carpeta imagene/cursos/).
+   Arrastra para girar · toca una foto lateral para traerla al frente · toca la del frente para ampliarla. */
+(() => {
+  const stage = $('.cur-stage'), ring = stage && $('.cur-ring', stage);
+  if (!ring) return;
+  const items = [...ring.children], n = items.length;
+  if (!n) return;
+  const step = 360 / n;
+  let rot = 0, vel = 0, down = false, dragging = false, startX = 0, lastX = 0, idle = 0, radius = 0, visible = false, raf = 0;
+  items.forEach(el => el.classList.add('cur-item'));
+
+  function layout() {
+    const sw = stage.clientWidth;
+    const W = Math.round(Math.min(300, Math.max(150, sw * (sw < 600 ? .46 : .27)))), H = Math.round(W * 4 / 3);
+    radius = Math.round((W + 24) / 2 / Math.tan(Math.PI / n));
+    items.forEach((el, i) => {
+      el.style.width = W + 'px'; el.style.height = H + 'px';
+      el.style.marginLeft = -W / 2 + 'px'; el.style.marginTop = -H / 2 + 'px';
+      el.style.transform = `rotateY(${i * step}deg) translateZ(${radius}px)`;
+    });
+  }
+  function render() {
+    ring.style.transform = `translateZ(${-radius}px) rotateY(${rot}deg)`;
+    items.forEach((el, i) => {
+      const a = ((i * step + rot) % 360 + 540) % 360 - 180;   // -180..180, 0 = al frente
+      const k = Math.abs(a) / 180;                              // 0 frente, 1 atrás
+      el.style.opacity = (1 - k * .6).toFixed(2);
+      el.style.filter = `brightness(${(1 - k * .35).toFixed(2)})`;
+      el.classList.toggle('front', Math.abs(a) < step / 2);
+    });
+  }
+  function tick() {                                          // inercia + giro lento cuando está quieto
+    if (!dragging) {
+      rot += vel; vel *= .94;
+      if (Math.abs(vel) < .01) vel = 0;
+      if (!reduce && vel === 0 && ++idle > 90) rot -= .12;
+    }
+    render();
+    raf = visible ? requestAnimationFrame(tick) : 0;          // se pausa si la galería no está en pantalla
+  }
+  function spinTo(t) {
+    idle = 0; vel = 0;
+    if (reduce) { rot = t; render(); return; }
+    const from = rot, t0 = performance.now();
+    (function a(now) {
+      const p = Math.min(1, (now - t0) / 600), e = 1 - Math.pow(1 - p, 3);
+      rot = from + (t - from) * e; render();
+      if (p < 1 && !dragging) requestAnimationFrame(a);
+    })(t0);
+  }
+  const bringToFront = i => spinTo(rot + ((-i * step - rot) % 360 + 540) % 360 - 180);
+  const openFront = () => { const f = $('.cur-item.front img', ring); if (f) { di.src = f.src; di.alt = f.alt; d.classList.add('tall'); d.showModal(); } };
+
+  // Arrastrar: la captura del puntero empieza solo tras moverse 6px, así el toque simple sigue siendo un clic
+  stage.addEventListener('pointerdown', e => { down = true; dragging = false; startX = lastX = e.clientX; vel = 0; idle = 0; });
+  stage.addEventListener('pointermove', e => {
+    if (!down) return;
+    if (!dragging && Math.abs(e.clientX - startX) > 6) { dragging = true; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); }
+    if (!dragging) return;
+    const dx = e.clientX - lastX; lastX = e.clientX;
+    rot += dx * .35; vel = dx * .35; idle = 0;
+  });
+  const end = () => { down = false; stage.classList.remove('drag'); setTimeout(() => { dragging = false; }); };
+  stage.addEventListener('pointerup', end);
+  stage.addEventListener('pointercancel', end);
+  stage.addEventListener('click', e => {
+    if (dragging) return;
+    const el = e.target.closest('.cur-item'); if (!el) return;
+    el.classList.contains('front') ? openFront() : bringToFront(items.indexOf(el));
+  });
+
+  // Teclado: flechas giran, Enter amplía la foto del frente
+  stage.tabIndex = 0;
+  stage.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') spinTo(Math.round(rot / step) * step - step);
+    if (e.key === 'ArrowLeft') spinTo(Math.round(rot / step) * step + step);
+    if (e.key === 'Enter') openFront();
+  });
+
+  addEventListener('resize', () => { layout(); render(); });
+  layout(); render();
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !raf) raf = requestAnimationFrame(tick); }).observe(stage);
+  } else { visible = true; raf = requestAnimationFrame(tick); }
+})();
 
 renderPicker(); updateSummary(); goStep(1);
 
@@ -310,7 +398,7 @@ $$('.marq .track').forEach(t => {
 });
 
 /* ---------- Aparición al hacer scroll ---------- */
-const rvSel = '.intro .w>*,.chap-head,.svc,.two>*,.dark .w>*,.rev-head,.rev-foot,.sede,#sedes .w>p,#sedes .w>h2,.hero .t,.stats>div';
+const rvSel = '.intro .w>*,.chap-head,.svc,.two>*,.cur-head,.cur-stage,.dark .w>*,.rev-head,.rev-foot,.sede,#sedes .w>p,#sedes .w>h2,.hero .t,.stats>div';
 const rvEls = $$(rvSel);
 if ('IntersectionObserver' in window && !reduce) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
