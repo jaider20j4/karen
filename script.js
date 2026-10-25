@@ -29,23 +29,42 @@ const SEDES = [
 ];
 
 /* ---------- 2) SERVICIOS ----------
-   OJO: precios, descripciones largas y características (feats) son EJEMPLO; cámbialos por los reales. */
+   OJO: precios, descripciones largas y características (feats) son EJEMPLO; cámbialos por los reales.
+   fotos: rutas de las fotos que se ven en "VER FOTO" (carrusel). Para agregar más fotos a un servicio,
+   guarda el archivo en imagene/servicios/ y añade su ruta al arreglo, ej:
+     fotos: ['imagene/servicios/foto1.jpg', 'imagene/servicios/foto2.jpg', 'imagene/servicios/foto3.jpg']
+   Un '' deja un espacio en blanco ("Foto próximamente") para una foto futura. */
 const SERVICIOS = [
-  { id: 's1', cat: 'Cejas', nombre: 'Diseño de cejas', badges: ['CERA', 'HILO'], precio: 25000, desc: 'A la medida de tu estructura.', largo: 'Diseño personalizado según la estructura de tu rostro, retirando el vello con cera o hilo.', feats: ["Técnica con cera o hilo", "Dura de 2 a 3 semanas", "Ideal para todo tipo de piel", "incluye Spa"] },
-  { id: 's2', cat: 'Cejas', nombre: 'Semipermanente', badges: ['MAQUILLAJE'], precio: 35000, desc: 'Diseño y maquillaje de cejas.', largo: 'Maquillaje de cejas que realza tu diseño con un acabado suave y natural.', feats: ["Dura de 3 a 5 días", "Ideal para efecto maquillaje", "Técnica con cera dermatologica","incluye Spa"] },
-  { id: 's3', cat: 'Micropigmentación', nombre: 'Micropigmentación', badges: ['PIGMENTO'], precio: 250000, desc: 'Definición que dura.', largo: 'Una tecnica especializada de diseño y pigmentacion que busca realzar la belleza natural de las cejas, respetando la armonia facial, la colorimetria y la escencia de cada persona', feats: ["Dura de 1 a 2 años (varía por piel)", "diseño personalizado", "Efecto Natural","Tecnica efecto polvo"] },
-  { id: 's4', cat: 'Pestañas', nombre: 'Lifting coreano', badges:['LIFTING'], precio: 40000, desc: 'Pestañas peinadas y con volumen.', largo: 'El lash lifting Korean busca un efecto elegante, limpio y natural, respetando la estructura de la pestaña para lograr una curvatura armoniosa', feats: ["Dura de 4 a 6 semanas", "Sin extensiones", "Sin exceso de producto", "Aspecto sofisticado desde el primer dia" , "Incluye Kit profesional post cuidado"] },
-  { id: 's5', cat: 'Pestañas', nombre: 'Pestañas Punto a punto', badges: ['FIBRA DE SEDA'], precio: 100000, desc: 'Fibra de seda, look natural.', largo: 'Extensiones de fibra de seda aplicadas pestaña por pestaña para un look natural.', feats: [ "Retoque cada 3 semanas", "Ideal para un efecto sutil"] },
-  { id: 's6', cat: 'Pestañas', nombre: 'Pestañas híbridas', badges: ['HÍBRIDAS'], precio: 150000, desc: 'Más mirada, sin exagerar.', largo: 'Mezcla de técnicas que combina densidad y ligereza para más mirada sin exagerar.', feats: ["Técnica híbrida", "Retoque cada 3 semanas", "Ideal para volumen natural"] }
+  // CEJAS
+  { id: 's1', cat: 'Cejas', nombre: 'Diseño de cejas', badges: ['CERA', 'HILO'], precio: 25000, desc: 'A la medida de tu estructura.', largo: 'Diseño personalizado según la estructura de tu rostro, retirando el vello con cera o hilo.', feats: ["Técnica con cera o hilo", "Dura de 2 a 3 semanas", "Ideal para todo tipo de piel", "incluye Spa"],
+    fotos: ['imagene/servicios/diseño de cejas.jpeg', ''] },
+  { id: 's2', cat: 'Cejas', nombre: 'Semipermanente', badges: ['MAQUILLAJE'], precio: 35000, desc: 'Diseño y maquillaje de cejas.', largo: 'Maquillaje de cejas que realza tu diseño con un acabado suave y natural.', feats: ["Dura de 3 a 5 días", "Ideal para efecto maquillaje", "Técnica con cera dermatologica","incluye Spa"],
+    fotos: ['imagene/servicios/cejas semi permanente.PNG', 'imagene/servicios/cejas semi.PNG'] },
+  { id: 's3', cat: 'Cejas', nombre: 'Micropigmentación', badges: ['PIGMENTO'], precio: 250000, desc: 'Definición que dura.', largo: 'Una tecnica especializada de diseño y pigmentacion que busca realzar la belleza natural de las cejas, respetando la armonia facial, la colorimetria y la escencia de cada persona', feats: ["Dura de 1 a 2 años (varía por piel)", "diseño personalizado", "Efecto Natural","Tecnica efecto polvo"],
+    fotos: ['imagene/servicios/micropigmentacion efecto polvo.PNG', ''] },
+  { id: 's7', cat: 'Cejas', nombre: 'Laminado de cejas', badges: ['LAMINADO'], precio: 0, desc: 'Cejas peinadas y con volumen.', largo: 'Tratamiento que alisa y fija el vello de las cejas en la dirección deseada para un efecto peinado, lleno y ordenado.', feats: ["Dura de 4 a 6 semanas", "Efecto cejas peinadas", "Ideal para cejas rebeldes o despobladas"],   // REVISAR PRECIO · REVISAR textos
+    fotos: ['imagene/servicios/laminado de cejas.jpg', ''] },
+  // PESTAÑAS
+  { id: 's4', cat: 'Pestañas', nombre: 'Lifting coreano', badges:['LIFTING'], precio: 40000, desc: 'Pestañas peinadas y con volumen.', largo: 'El lash lifting Korean busca un efecto elegante, limpio y natural, respetando la estructura de la pestaña para lograr una curvatura armoniosa', feats: ["Dura de 4 a 6 semanas", "Sin extensiones", "Sin exceso de producto", "Aspecto sofisticado desde el primer dia" , "Incluye Kit profesional post cuidado"],
+    fotos: ['imagene/servicios/lifting tecnica coreana.PNG', ''] },
+  { id: 's5', cat: 'Pestañas', nombre: 'Pestañas Punto a punto', badges: ['FIBRA DE SEDA'], precio: 100000, desc: 'Fibra de seda, look natural.', largo: 'Extensiones de fibra de seda aplicadas pestaña por pestaña para un look natural.', feats: [ "Retoque cada 3 semanas", "Ideal para un efecto sutil"],
+    fotos: ['imagene/servicios/pestañas punto a punto fibra de seda.PNG', ''] },
+  { id: 's6', cat: 'Pestañas', nombre: 'Pestañas híbridas', badges: ['HÍBRIDAS'], precio: 150000, desc: 'Más mirada, sin exagerar.', largo: 'Mezcla de técnicas que combina densidad y ligereza para más mirada sin exagerar.', feats: ["Técnica híbrida", "Retoque cada 3 semanas", "Ideal para volumen natural"],
+    fotos: ['', ''] },
+  { id: 's8', cat: 'Pestañas', nombre: 'Pestañas 3D suave glam', badges: ['3D', 'GLAM'], precio: 0, desc: 'Volumen suave con efecto glam.', largo: 'Extensiones con técnica de volumen 3D que dan una mirada más llena y glamurosa, con un acabado ligero.', feats: ["Técnica de volumen 3D", "Retoque cada 3 semanas", "Ideal para un look glam"],   // REVISAR PRECIO · REVISAR textos
+    fotos: ['imagene/servicios/pestañas 3d suave glam.jpg', ''] },
+  { id: 's9', cat: 'Pestañas', nombre: 'Pestañas pelo a pelo 3D suave glam', badges: ['PELO A PELO', '3D'], precio: 0, desc: 'Pelo a pelo con un toque de volumen.', largo: 'Combinación de extensiones pelo a pelo con abanicos 3D para una mirada definida con volumen suave.', feats: ["Técnica mixta pelo a pelo y 3D", "Retoque cada 3 semanas", "Ideal para volumen suave"],   // REVISAR PRECIO · REVISAR textos
+    fotos: ['imagene/servicios/pestañas pelo a pelo 3d suave glam.jpg', ''] },
+  { id: 's10', cat: 'Pestañas', nombre: 'Set de pestañas pelo a pelo clásicas', badges: ['CLÁSICAS'], precio: 0, desc: 'Una extensión por cada pestaña.', largo: 'Set clásico: una extensión por cada pestaña natural para alargar y definir con un resultado natural.', feats: ["Técnica pelo a pelo", "Retoque cada 3 semanas", "Ideal para un look natural"],   // REVISAR PRECIO · REVISAR textos
+    fotos: ['imagene/servicios/set de pestañas pelo a pelo clasicas.jpg', ''] }
 ];
 const CATS = ['Todos', ...new Set(SERVICIOS.map(s => s.cat))];
-const GRUPOS = { 'list-cejas': ['Cejas', 'Micropigmentación'], 'list-pestanas': ['Pestañas'] };
+const GRUPOS = { 'list-cejas': ['Cejas'], 'list-pestanas': ['Pestañas'] };
 const money = n => '$' + n.toLocaleString('es-CO');
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 /* ---------- 3) LISTA DE SERVICIOS (Cejas / Pestañas) ---------- */
-const pool = $$('#pool img:not([id^="ba-"])');                       // fotos incluidas una sola vez en el HTML
 Object.entries(GRUPOS).forEach(([listId, cats]) => {
   $('#' + listId).innerHTML = SERVICIOS.filter(s => cats.includes(s.cat)).map((s, n) => `
   <article class="svc" id="${s.id}">
@@ -124,14 +143,32 @@ function resetAll() {                                // limpia selección y form
   setBtn('Enviar solicitud'); btn.disabled = false; renderPicker(); updateSummary(); goStep(1);
 }
 
-/* Vista previa de servicio ("VER FOTO") */
+/* Vista previa de servicio ("VER FOTO") con carrusel: flechas ‹ ›, deslizar con el dedo y puntitos.
+   Las fotos salen del campo fotos de cada servicio en SERVICIOS. */
+const track = $('#sv-track'), dots = $('#sv-dots');
+const slideIdx = () => Math.round(track.scrollLeft / (track.clientWidth || 1));
+const goSlide = i => track.scrollTo({ left: i * track.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+function syncGal() {
+  const i = slideIdx();
+  $$('span', dots).forEach((d, k) => d.classList.toggle('on', k === i));
+  $('#sv-prev').disabled = i <= 0; $('#sv-next').disabled = i >= track.children.length - 1;
+}
+track.addEventListener('scroll', () => requestAnimationFrame(syncGal), { passive: true });
+$('#sv-prev').addEventListener('click', () => goSlide(slideIdx() - 1));
+$('#sv-next').addEventListener('click', () => goSlide(slideIdx() + 1));
+
 function openPreview(id) {
-  const i = SERVICIOS.findIndex(s => s.id === id), s = SERVICIOS[i];
-  const img = $('#sv-img'); img.src = pool[i].src; img.alt = pool[i].alt;
+  const s = SERVICIOS.find(x => x.id === id);
+  const fotos = s.fotos && s.fotos.length ? s.fotos : [''];
+  track.innerHTML = fotos.map((f, k) => `<div class="gal-slide">${f
+    ? `<img src="${encodeURI(f)}" alt="${s.nombre} · foto ${k + 1} de ${fotos.length}"${k ? ' loading="lazy"' : ''}>`
+    : '<div class="gal-empty"><span>Foto próximamente</span></div>'}</div>`).join('');
+  dots.innerHTML = fotos.map(() => '<span></span>').join('');
+  $('#sv-gal').classList.toggle('one', fotos.length < 2);
   $('#sv-title').textContent = s.nombre; $('#sv-desc').textContent = s.largo;
   $('#sv-feats').innerHTML = s.feats.map(f => `<li>${f}</li>`).join('');
   $('#sv-book').dataset.id = id;
-  showOverlay(pm); $('#sv-close').focus();
+  showOverlay(pm); track.scrollLeft = 0; syncGal(); $('#sv-close').focus();
 }
 const closePreview = () => { if (!pm.hidden) hideOverlay(pm); };
 
@@ -139,7 +176,10 @@ $('#bk-close').addEventListener('click', closeBookingModal);
 $('#sv-close').addEventListener('click', closePreview);
 pm.addEventListener('click', e => { if (e.target === pm) closePreview(); });
 $('#sv-book').addEventListener('click', e => openBookingModal(e.currentTarget.dataset.id));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!pm.hidden) closePreview(); else closeBookingModal(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (!pm.hidden) closePreview(); else closeBookingModal(); }
+  if (!pm.hidden && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) goSlide(slideIdx() + (e.key === 'ArrowRight' ? 1 : -1));
+});
 // Botones "Agendar cita" de la página (navbar, hero, footer...)
 $$('a[href="#reservar"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openBookingModal(); }));
 
@@ -251,31 +291,6 @@ form.addEventListener('submit', e => {      // sin async/await: Safari (iPhone) 
 });
 $('#nueva').addEventListener('click', closeBookingModal);
 
-/* ---------- ANTES Y DESPUÉS (barra deslizadora) ----------
-   Para usar tus propias fotos pon la ruta en antes/despues, ej: 'img/antes2.jpg'.
-   Si las dejas vacías se muestra un marco de ejemplo. */
-const ANTES_DESPUES = [
-  { antes: 'ba-1a', despues: 'ba-1d', titulo: 'Pestañas híbridas' },
-  { antes: '', despues: '', titulo: 'Tu foto aquí' },
-  { antes: '', despues: '', titulo: 'Tu foto aquí' }
-];
-const baUrl = v => !v ? '' : (/[./]/.test(v) ? v : (($('#' + v) || {}).src || ''));
-const baLayer = (v, k) => baUrl(v) ? `<img src="${baUrl(v)}" alt="">` : `<div class="ph ${k}">Tu foto aquí</div>`;
-$('#ba-row').innerHTML = ANTES_DESPUES.map(b => `
-  <figure class="ba" style="--p:50%">
-    <div class="ba-view">
-      ${baLayer(b.despues, 'd')}
-      <div class="ba-top">${baLayer(b.antes, 'a')}</div>
-      <span class="ba-tag l">ANTES</span><span class="ba-tag r">DESPUÉS</span>
-      <div class="ba-handle" aria-hidden="true"><span class="knob"></span></div>
-      <input type="range" class="ba-range" min="0" max="100" value="50" aria-label="Comparar antes y después: ${b.titulo}">
-    </div>
-    <figcaption>${b.titulo}</figcaption>
-  </figure>`).join('');
-$('#ba-row').addEventListener('input', e => {
-  if (e.target.classList.contains('ba-range')) e.target.closest('.ba').style.setProperty('--p', e.target.value + '%');
-});
-
 /* ---------- Visor de fotos (código original) ---------- */
 const d = $('#d'), di = $('img', d);
 $$('.two img.r').forEach(e => e.addEventListener('click', () => {
@@ -295,7 +310,7 @@ $$('.marq .track').forEach(t => {
 });
 
 /* ---------- Aparición al hacer scroll ---------- */
-const rvSel = '.intro .w>*,.chap-head,.svc,.ba,.two>*,.dark .w>*,.rev-head,.rev-foot,.sede,#sedes .w>p,#sedes .w>h2,.hero .t,.stats>div';
+const rvSel = '.intro .w>*,.chap-head,.svc,.two>*,.dark .w>*,.rev-head,.rev-foot,.sede,#sedes .w>p,#sedes .w>h2,.hero .t,.stats>div';
 const rvEls = $$(rvSel);
 if ('IntersectionObserver' in window && !reduce) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
