@@ -24,7 +24,7 @@ const CONFIG = {
    maps: enlace de Google Maps (opcional). Si lo dejas vacío se busca por la dirección.
    whatsapp: número propio de la sede (opcional); si no, se usa CONFIG.WHATSAPP. */
 const SEDES = [
-  { id: 'sede1', nombre: 'Sede 1', direccion: 'Dirección de la sede 1', referencia: 'Barrio / local / piso', horario: 'Lunes a sábado · 9:00 am – 5:00 pm', telefono: '', whatsapp: '', maps: '', foto: '' },
+  { id: 'sede1', nombre: 'Sede 1', direccion: 'soledad jajaj', referencia: 'Barrio / local / piso', horario: 'Lunes a sábado · 9:00 am – 5:00 pm', telefono: '', whatsapp: '', maps: '', foto: '' },
   { id: 'sede2', nombre: 'Sede 2', direccion: 'Dirección de la sede 2', referencia: 'Barrio / local / piso', horario: 'Lunes a sábado · 9:00 am – 5:00 pm', telefono: '', whatsapp: '', maps: '', foto: '' }
 ];
 
