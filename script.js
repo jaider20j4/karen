@@ -12,15 +12,13 @@ const CONFIG = {
   // Si lo dejas vacío, se abre el enlace wa.link de Studio K sin mensaje prellenado.
   WHATSAPP: '',
   WHATSAPP_LINK: 'https://wa.link/8qvs7m',
-  // Foto de Karen para el arco de la portada (ej. 'img/karen.jpg'). Vacío = marco "Foto de Karen · Próximamente".
-  KAREN_FOTO: '',
   HORAS: ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'],
   DIAS_CERRADO: [0],                                     // 0 = domingo
   ESPECIALISTAS: ['Cualquiera del equipo', 'Karen']      // añade al equipo aquí
 };
 
 /* ---------- SEDES (rellena dirección, teléfono y foto de cada una) ----------
-   foto: ruta de la imagen, ej. 'img/sede1.jpg'. Si la dejas vacía se muestra un marco con "Foto de la sede".
+   foto: ruta de la imagen, ej. 'img/sede1.jpg'. Si la dejas vacía se muestra un marco decorativo con el logo.
    maps: enlace de Google Maps (opcional). Si lo dejas vacío se busca por la dirección.
    whatsapp: número propio de la sede (opcional); si no, se usa CONFIG.WHATSAPP. */
 const SEDES = [
@@ -33,34 +31,98 @@ const SEDES = [
    fotos: rutas de las fotos que se ven en "VER FOTO" (carrusel). Para agregar más fotos a un servicio,
    guarda el archivo en imagene/servicios/ y añade su ruta al arreglo, ej:
      fotos: ['imagene/servicios/foto1.jpg', 'imagene/servicios/foto2.jpg', 'imagene/servicios/foto3.jpg']
-   Un '' deja un espacio en blanco ("Foto próximamente") para una foto futura. */
+   Un '' deja un espacio en blanco para una foto futura: se ve la flecha › y un marco vacío con el logo.
+   Cuando tengas la foto, cambia ese '' por su ruta.
+   extra: retoque o mantenimiento que se muestra debajo del precio base, solo en la tarjeta de la lista
+   (el modal "VER FOTO" no muestra precios):
+     { tipo: 'Retoque' | 'Mantenimiento', precio: 80000, nota: 'cada 15 días' }
+   precio 0 (en el servicio o en extra) = se muestra "A consultar".
+   abono: lo que la clienta paga para poder agendar ese servicio. Se muestra en la reserva y en el mensaje
+   de WhatsApp. Está en 0 en todos: cámbialo por el valor real de cada servicio (ej. abono: 20000). */
 const SERVICIOS = [
   // CEJAS
-  { id: 's1', cat: 'Cejas', nombre: 'Diseño de cejas', badges: ['CERA', 'HILO'], precio: 25000, desc: 'A la medida de tu estructura.', largo: 'Diseño personalizado según la estructura de tu rostro, retirando el vello con cera o hilo.', feats: ["Técnica con cera o hilo", "Dura de 2 a 3 semanas", "Ideal para todo tipo de piel", "incluye Spa"],
-    fotos: ['imagene/servicios/diseño de cejas.jpeg', ''] },
-  { id: 's2', cat: 'Cejas', nombre: 'Semipermanente', badges: ['MAQUILLAJE'], precio: 35000, desc: 'Diseño y maquillaje de cejas.', largo: 'Maquillaje de cejas que realza tu diseño con un acabado suave y natural.', feats: ["Dura de 3 a 5 días", "Ideal para efecto maquillaje", "Técnica con cera dermatologica","incluye Spa"],
+  { id: 's1', cat: 'Cejas', nombre: 'Diseño de cejas', badges: ['CERA', 'HILO'], precio: 25000, abono: 0, desc: 'A la medida de tu estructura.', largo: 'Diseño personalizado según la estructura de tu rostro, retirando el vello con cera o hilo.', feats: ["Técnica con cera o hilo", "Dura de 2 a 3 semanas", "Ideal para todo tipo de piel", "incluye Spa"],
+    fotos: ['imagene/servicios/diseño de cejas web.jpg', ''] },   // copia liviana (carga más rápido)
+  { id: 's2', cat: 'Cejas', nombre: 'Semipermanente', badges: ['MAQUILLAJE'], precio: 35000, abono: 0, desc: 'Diseño y maquillaje de cejas.', largo: 'Maquillaje de cejas que realza tu diseño con un acabado suave y natural.', feats: ["Dura de 3 a 5 días", "Ideal para efecto maquillaje", "Técnica con cera dermatologica","incluye Spa"],
     fotos: ['imagene/servicios/cejas semi permanente.PNG', 'imagene/servicios/cejas semi.PNG'] },
-  { id: 's3', cat: 'Cejas', nombre: 'Micropigmentación', badges: ['PIGMENTO'], precio: 250000, desc: 'Definición que dura.', largo: 'Una tecnica especializada de diseño y pigmentacion que busca realzar la belleza natural de las cejas, respetando la armonia facial, la colorimetria y la escencia de cada persona', feats: ["Dura de 1 a 2 años (varía por piel)", "diseño personalizado", "Efecto Natural","Tecnica efecto polvo"],
-    fotos: ['imagene/servicios/micropigmentacion efecto polvo.PNG', ''] },
-  { id: 's7', cat: 'Cejas', nombre: 'Laminado de cejas', badges: ['LAMINADO'], precio: 0, desc: 'Cejas peinadas y con volumen.', largo: 'Tratamiento que alisa y fija el vello de las cejas en la dirección deseada para un efecto peinado, lleno y ordenado.', feats: ["Dura de 4 a 6 semanas", "Efecto cejas peinadas", "Ideal para cejas rebeldes o despobladas"],   // REVISAR PRECIO · REVISAR textos
-    fotos: ['imagene/servicios/laminado de cejas.jpg', ''] },
+
+  { id: 's3', cat: 'Cejas', nombre: 'Micropigmentación', badges: ['PIGMENTO'], precio: 250000, abono: 0, desc: 'Definición que dura.', largo: 'Una tecnica especializada de diseño y pigmentacion que busca realzar la belleza natural de las cejas, respetando la armonia facial, la colorimetria y la escencia de cada persona', feats: ["Dura de 1 a 2 años (varía por piel)", "diseño personalizado", "Efecto Natural","Tecnica efecto polvo"],
+    extra: { tipo: 'Retoque', precio: 100000, nota: '2.ª sesión' },
+    fotos: ['imagene/servicios/micropigmentacion efecto polvo web.jpg', ''] },   // copia sin el ícono de volumen de la captura
+  { id: 's7', cat: 'Cejas', nombre: 'Laminado de cejas', badges: ['LAMINADO'], precio: 85000, abono: 0, desc: 'Cejas peinadas y con volumen.', largo: 'Tratamiento que alisa y fija el vello de las cejas en la dirección deseada para un efecto peinado, lleno y ordenado.', feats: ["Dura de 4 a 6 semanas", "Efecto cejas peinadas", "Ideal para cejas rebeldes o despobladas"],   // REVISAR PRECIO · REVISAR textos
+    fotos: ['imagene/servicios/laminado de cejas web.jpg', ''] },   // copia liviana (carga más rápido)
   // PESTAÑAS
-  { id: 's4', cat: 'Pestañas', nombre: 'Lifting coreano', badges:['LIFTING'], precio: 40000, desc: 'Pestañas peinadas y con volumen.', largo: 'El lash lifting Korean busca un efecto elegante, limpio y natural, respetando la estructura de la pestaña para lograr una curvatura armoniosa', feats: ["Dura de 4 a 6 semanas", "Sin extensiones", "Sin exceso de producto", "Aspecto sofisticado desde el primer dia" , "Incluye Kit profesional post cuidado"],
+  { id: 's4', cat: 'Pestañas', nombre: 'Lifting coreano', badges:['LIFTING'], precio: 95000, abono: 0, desc: 'Pestañas peinadas y con volumen.', largo: 'El lash lifting Korean busca un efecto elegante, limpio y natural, respetando la estructura de la pestaña para lograr una curvatura armoniosa', feats: ["Dura de 4 a 6 semanas", "Sin extensiones", "Sin exceso de producto", "Aspecto sofisticado desde el primer dia" , "Incluye Kit profesional post cuidado"],
     fotos: ['imagene/servicios/lifting tecnica coreana.PNG', ''] },
-  { id: 's5', cat: 'Pestañas', nombre: 'Pestañas Punto a punto', badges: ['FIBRA DE SEDA'], precio: 100000, desc: 'Fibra de seda, look natural.', largo: 'Extensiones de fibra de seda aplicadas pestaña por pestaña para un look natural.', feats: [ "Retoque cada 3 semanas", "Ideal para un efecto sutil"],
+
+    //existe un combo de semi con punto a punto a punto 50 mil//
+  { id: 's5', cat: 'Pestañas', nombre: 'Pestañas Punto a punto', badges: ['FIBRA DE SEDA'], precio: 30000, abono: 0, desc: 'Fibra de seda, look natural.', largo: 'Extensiones de fibra de seda aplicadas pestaña por pestaña para un look natural.', feats: [  "Ideal para un efecto sutil"],
     fotos: ['imagene/servicios/pestañas punto a punto fibra de seda.PNG', ''] },
-  { id: 's6', cat: 'Pestañas', nombre: 'Pestañas híbridas', badges: ['HÍBRIDAS'], precio: 150000, desc: 'Más mirada, sin exagerar.', largo: 'Mezcla de técnicas que combina densidad y ligereza para más mirada sin exagerar.', feats: ["Técnica híbrida", "Retoque cada 3 semanas", "Ideal para volumen natural"],
+  { id: 's6', cat: 'Pestañas', nombre: 'Pestañas híbridas', badges: ['HÍBRIDAS'], precio: 120000, abono: 0, desc: 'Más mirada, sin exagerar.', largo: 'Mezcla de técnicas que combina densidad y ligereza para más mirada sin exagerar.', feats: ["Técnica híbrida", "Ideal para volumen natural"],
+    extra: { tipo: 'Mantenimiento', precio: 80000, nota: 'cada 15 días' },
     fotos: ['', ''] },
-  { id: 's8', cat: 'Pestañas', nombre: 'Pestañas 3D suave glam', badges: ['3D', 'GLAM'], precio: 0, desc: 'Volumen suave con efecto glam.', largo: 'Extensiones con técnica de volumen 3D que dan una mirada más llena y glamurosa, con un acabado ligero.', feats: ["Técnica de volumen 3D", "Retoque cada 3 semanas", "Ideal para un look glam"],   // REVISAR PRECIO · REVISAR textos
-    fotos: ['imagene/servicios/pestañas 3d suave glam.jpg', ''] },
-  { id: 's9', cat: 'Pestañas', nombre: 'Pestañas pelo a pelo 3D suave glam', badges: ['PELO A PELO', '3D'], precio: 0, desc: 'Pelo a pelo con un toque de volumen.', largo: 'Combinación de extensiones pelo a pelo con abanicos 3D para una mirada definida con volumen suave.', feats: ["Técnica mixta pelo a pelo y 3D", "Retoque cada 3 semanas", "Ideal para volumen suave"],   // REVISAR PRECIO · REVISAR textos
-    fotos: ['imagene/servicios/pestañas pelo a pelo 3d suave glam.jpg', ''] },
-  { id: 's10', cat: 'Pestañas', nombre: 'Set de pestañas pelo a pelo clásicas', badges: ['CLÁSICAS'], precio: 0, desc: 'Una extensión por cada pestaña.', largo: 'Set clásico: una extensión por cada pestaña natural para alargar y definir con un resultado natural.', feats: ["Técnica pelo a pelo", "Retoque cada 3 semanas", "Ideal para un look natural"],   // REVISAR PRECIO · REVISAR textos
+  { id: 's8', cat: 'Pestañas', nombre: 'Pestañas 3D suave glam', badges: ['3D', 'GLAM'], precio: 0, abono: 0, desc: 'Volumen suave con efecto glam.', largo: 'Extensiones con técnica de volumen 3D que dan una mirada más llena y glamurosa, con un acabado ligero.', feats: ["Técnica de volumen 3D", "Ideal para un look glam"],   // REVISAR PRECIO · REVISAR textos
+    extra: { tipo: 'Retoque', precio: 0, nota: 'cada 3 semanas' },   // REVISAR PRECIO del retoque
+    fotos: ['imagene/servicios/pestañas 3d suave glam web.jpg', ''] },   // copia liviana (carga más rápido)
+  { id: 's9', cat: 'Pestañas', nombre: 'Pestañas pelo a pelo 3D suave glam', badges: ['PELO A PELO', '3D'], precio: 0, abono: 0, desc: 'Pelo a pelo con un toque de volumen.', largo: 'Combinación de extensiones pelo a pelo con abanicos 3D para una mirada definida con volumen suave.', feats: ["Técnica mixta pelo a pelo y 3D", "Ideal para volumen suave"],   // REVISAR PRECIO · REVISAR textos
+    extra: { tipo: 'Mantenimiento', precio: 0, nota: 'cada 15 días' },   // REVISAR PRECIO del mantenimiento
+    fotos: ['imagene/servicios/pestañas pelo a pelo 3d suave glam web.jpg', ''] },   // copia sin los bordes negros de la captura
+  { id: 's10', cat: 'Pestañas', nombre: 'Set de pestañas pelo a pelo clásicas', badges: ['CLÁSICAS'], precio: 90000, abono: 0, desc: 'Una extensión por cada pestaña.', largo: 'Set clásico: una extensión por cada pestaña natural para alargar y definir con un resultado natural.', feats: ["Técnica pelo a pelo", "Ideal para un look natural"],   // REVISAR PRECIO · REVISAR textos
+    extra: { tipo: 'Mantenimiento', precio: 50000, nota: 'cada 15 días' },
     fotos: ['imagene/servicios/set de pestañas pelo a pelo clasicas.jpg', ''] }
 ];
+/* ---------- CURSOS (sección Capacitaciones · Lovely Brows) ----------
+   Cada objeto es una tarjeta del carrusel:
+   · CON nombre  → la tarjeta muestra el curso y al tocarla se abre su ficha completa.
+   · SIN nombre  → TARJETA LIBRE: solo se ve la foto (al tocarla se amplía). Sirve para un curso futuro.
+
+   Los cursos 1 y 2 tienen SOLO información real, tomada de los certificados de las fotos. Úsalos como ejemplo.
+   REGLA: no pongas nada que no sea cierto. Lo que no sepas, déjalo vacío ('' o []) y no se mostrará.
+
+   CÓMO CONVERTIR UNA TARJETA LIBRE EN UN CURSO (llena los campos de esa tarjeta, más abajo):
+     cat         'Cejas' o 'Pestañas'                        → etiqueta de la tarjeta
+     nombre      nombre del curso, ej. 'Micropigmentación'   → título (si lo dejas vacío, la tarjeta queda libre)
+     sub         técnica o subtítulo, ej. 'Técnica efecto polvo'
+     descripcion qué aprende la alumna y para qué le sirve (1 o 2 frases)
+     datos       recuadros de la ficha, ej. { 'Duración': '2 días intensivos', 'Modalidad': 'Presencial',
+                 'Valor': '$000.000', 'Certificado': 'Studio K' }      (agrega o quita los que quieras)
+     temario     temas, ej. ['Tema 1', 'Tema 2']             → "Lo que aprenderás"
+     incluye     ej. ['Material de trabajo', 'Certificado']  → "Incluye"
+     ideal       para quién es el curso                      → "Ideal para"
+     foto / pos / alt   foto de imagene/cursos/, encuadre en la tarjeta ('50% 40%' = centro, un poco arriba)
+                        y una descripción corta de lo que se ve en la foto. */
+const CURSOS = [
+  { id: 'c1', cat: 'Cejas', nombre: 'Diseño de cejas', sub: 'Acabados Premium · Lovely Brows', foto: 'imagene/cursos/curso1 web.jpg', pos: '50% 55%',
+    alt: 'Alumna de Studio K con su certificado de Diseño de cejas Lovely Brows',
+    descripcion: 'Curso intensivo de diseño de cejas con acabados premium, para ofrecer un servicio seguro y profesional.',
+    datos: { 'Duración': '3 a 4 días intensivos', 'Certificado': 'Studio K · Lovely Brows', 'Instructora': 'Karen, especialista en cejas' },
+    temario: [], incluye: [], ideal: '' },
+  { id: 'c2', cat: 'Pestañas', nombre: 'Lifting coreano', sub: 'Técnica fusión', foto: 'imagene/cursos/curso4 web.jpg', pos: '50% 50%',
+    alt: 'Alumna de Studio K con su certificado de Lifting coreano',
+    descripcion: 'Programa intensivo de lifting coreano con técnica fusión, para ofrecer un servicio seguro y profesional.',
+    datos: { 'Duración': '2 días intensivos', 'Certificado': 'Studio K · Lifting técnica coreana', 'Instructora': 'Karen, especialista en lifting técnica coreana' },
+    temario: [], incluye: [], ideal: '' },
+  // ---- TARJETAS LIBRES (solo foto). Llena sus campos cuando tengas un curso nuevo ----
+  { id: 'c3', cat: '', nombre: '', sub: '', foto: 'imagene/cursos/curso2 web.jpg', pos: '50% 30%',
+    alt: 'Alumna de Studio K con su certificado de Diseño de cejas Lovely Brows',
+    descripcion: '', datos: {}, temario: [], incluye: [], ideal: '' },
+  { id: 'c4', cat: '', nombre: '', sub: '', foto: 'imagene/cursos/curso5 web.jpg', pos: '50% 60%',
+    alt: 'Alumna de Studio K con su certificado de Lifting coreano',
+    descripcion: '', datos: {}, temario: [], incluye: [], ideal: '' },
+  { id: 'c5', cat: '', nombre: '', sub: '', foto: 'imagene/cursos/curso3 web.jpg', pos: '50% 60%',
+    alt: 'Alumna de Studio K con su certificado de Diseño de cejas Lovely Brows',
+    descripcion: '', datos: {}, temario: [], incluye: [], ideal: '' },
+  { id: 'c6', cat: '', nombre: '', sub: '', foto: 'imagene/cursos/curso6 web.jpg', pos: '50% 40%',
+    alt: 'Alumna de Studio K con su certificado de Diseño de cejas Lovely Brows',
+    descripcion: '', datos: {}, temario: [], incluye: [], ideal: '' }
+];
+// texto corto de la tarjeta: duración (o modalidad) · certificado
+const metaCurso = c => { const d = c.datos || {}; return [d['Duración'] || d['Modalidad'], d['Certificado'] ? 'Con certificado' : ''].filter(Boolean).join(' · '); };
+
 const CATS = ['Todos', ...new Set(SERVICIOS.map(s => s.cat))];
 const GRUPOS = { 'list-cejas': ['Cejas'], 'list-pestanas': ['Pestañas'] };
-const money = n => '$' + n.toLocaleString('es-CO');
+const money = n => n ? '$' + n.toLocaleString('es-CO') : 'A consultar';
+const extraTxt = x => `${x.tipo}${x.nota ? ' ' + x.nota : ''}: ${money(x.precio)}`;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -75,7 +137,10 @@ Object.entries(GRUPOS).forEach(([listId, cats]) => {
       <button type="button" class="ver" data-id="${s.id}" aria-haspopup="dialog">VER FOTO ▾</button>
     </div>
     <div class="end">
-      <div class="price"><small>DESDE</small><b>${money(s.precio)}</b></div>
+      <div class="price">
+        <small>PRECIO BASE</small><b>${money(s.precio)}</b>
+        ${s.extra ? `<span class="price-x"><em>${s.extra.tipo}</em>${money(s.extra.precio)}${s.extra.nota ? `<i>${s.extra.nota}</i>` : ''}</span>` : ''}
+      </div>
       <button type="button" class="agendar" data-id="${s.id}">Agendar →</button>
     </div>
   </article>`).join('');
@@ -91,7 +156,7 @@ const maps = d => d.maps || 'https://www.google.com/maps/search/?api=1&query=' +
 $('#sedes-row').innerHTML = SEDES.map((d, i) => `
   <article class="sede" id="${d.id}">
     <div class="sede-foto${d.foto ? '' : ' vacia'}">
-      ${d.foto ? `<img src="${d.foto}" alt="${d.nombre} de Studio K en Barranquilla" loading="lazy">` : '<div><span>Foto de la sede</span><small>Próximamente</small></div>'}
+      ${d.foto ? `<img src="${d.foto}" alt="${d.nombre} de Studio K en Barranquilla" loading="lazy">` : '<img class="sede-logo" src="imagene/logo.jpg" alt="" loading="lazy">'}
       <span class="sede-n">Sede 0${i + 1}</span>
     </div>
     <div class="sede-b">
@@ -112,16 +177,27 @@ $('#foot-sedes').innerHTML = SEDES.map(d => `<span>${d.nombre} · ${d.direccion}
 
 /* ---------- 4) MODALES ---------- */
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
-const bm = $('#booking-modal'), pm = $('#svc-modal');
+const bm = $('#booking-modal'), pm = $('#svc-modal'), cm = $('#curso-modal');
 let lastFocus = null;
 const modalTop = () => $('.modal-scroll').scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
 
 function showOverlay(el) { el.hidden = false; el.classList.remove('closing'); document.body.classList.add('lock'); }
 function hideOverlay(el, done) {                     // fade-out y luego oculta
   el.classList.add('closing');
-  const end = () => { el.hidden = true; el.classList.remove('closing'); if (bm.hidden && pm.hidden) document.body.classList.remove('lock'); if (done) done(); };
+  const end = () => { el.hidden = true; el.classList.remove('closing'); if (bm.hidden && pm.hidden && cm.hidden) document.body.classList.remove('lock'); if (done) done(); };
   reduce ? end() : setTimeout(end, 300);
 }
+
+/* Visor a pantalla completa: toca una foto de los modales para verla en grande (toca otra vez o Esc para cerrar) */
+const d = $('#d'), di = $('img', d);
+function zoom(img) {
+  if (!img || d.open) return;
+  di.src = img.currentSrc || img.src; di.alt = img.alt;
+  d.classList.toggle('tall', img.naturalHeight > img.naturalWidth);   // fotos verticales: se ajustan al alto
+  d.showModal();
+}
+d.addEventListener('click', () => d.close());
+d.addEventListener('close', () => d.classList.remove('tall'));
 
 /* Modal de agendamiento a pantalla completa. id (opcional) = servicio preseleccionado */
 function openBookingModal(id, sedeId) {
@@ -144,7 +220,8 @@ function resetAll() {                                // limpia selección y form
 }
 
 /* Vista previa de servicio ("VER FOTO") con carrusel: flechas ‹ ›, deslizar con el dedo y puntitos.
-   Las fotos salen del campo fotos de cada servicio en SERVICIOS. */
+   Las fotos salen del campo fotos de cada servicio en SERVICIOS; cada '' es un espacio en blanco para una foto futura.
+   Aquí NO se muestran precios: solo están en las tarjetas de la lista de servicios. */
 const track = $('#sv-track'), dots = $('#sv-dots');
 const slideIdx = () => Math.round(track.scrollLeft / (track.clientWidth || 1));
 const goSlide = i => track.scrollTo({ left: i * track.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
@@ -160,9 +237,10 @@ $('#sv-next').addEventListener('click', () => goSlide(slideIdx() + 1));
 function openPreview(id) {
   const s = SERVICIOS.find(x => x.id === id);
   const fotos = s.fotos && s.fotos.length ? s.fotos : [''];
-  track.innerHTML = fotos.map((f, k) => `<div class="gal-slide">${f
-    ? `<img src="${encodeURI(f)}" alt="${s.nombre} · foto ${k + 1} de ${fotos.length}"${k ? ' loading="lazy"' : ''}>`
-    : '<div class="gal-empty"><span>Foto próximamente</span></div>'}</div>`).join('');
+  // cada foto se ve COMPLETA (contain) sobre una copia desenfocada de sí misma; '' = espacio en blanco con el logo
+  track.innerHTML = fotos.map((f, k) => f
+    ? `<div class="gal-slide ph-fit" style="--bg:url('${encodeURI(f)}')"><img src="${encodeURI(f)}" alt="${s.nombre} · foto ${k + 1} de ${fotos.length}"${k ? ' loading="lazy"' : ''}></div>`
+    : '<div class="gal-slide empty" aria-hidden="true"><span class="gal-blank"></span></div>').join('');
   dots.innerHTML = fotos.map(() => '<span></span>').join('');
   $('#sv-gal').classList.toggle('one', fotos.length < 2);
   $('#sv-title').textContent = s.nombre; $('#sv-desc').textContent = s.largo;
@@ -171,13 +249,54 @@ function openPreview(id) {
   showOverlay(pm); track.scrollLeft = 0; syncGal(); $('#sv-close').focus();
 }
 const closePreview = () => { if (!pm.hidden) hideOverlay(pm); };
+track.addEventListener('click', e => { if (e.target.tagName === 'IMG') zoom(e.target); });
+
+/* Ficha completa de un curso (datos del arreglo CURSOS). El botón abre WhatsApp con el nombre del curso. */
+const cmBody = $('#cm-body'), cmMedia = $('#cm-media'), cmImg = $('#cm-img');
+let cmCurso = null, cmFocus = null;
+const listaCurso = (titulo, items, cls) => items && items.length
+  ? `<h4>${titulo}</h4><ul class="cm-list${cls ? ' ' + cls : ''}">${items.map(x => `<li>${x}</li>`).join('')}</ul>` : '';
+function openCurso(i) {
+  const c = CURSOS[i]; if (!c) return;
+  cmCurso = c; cmFocus = document.activeElement;
+  cmMedia.style.setProperty('--bg', `url('${encodeURI(c.foto)}')`);
+  cmImg.src = encodeURI(c.foto); cmImg.alt = c.alt || c.nombre;
+  const datos = Object.entries(c.datos || {}).filter(([, v]) => v);
+  cmBody.innerHTML = `
+    <p class="cm-kick"><span class="cm-cat">${c.cat}</span>Curso Studio K</p>
+    <h3 id="cm-title">${c.nombre}</h3>
+    ${c.sub ? `<p class="cm-sub">${c.sub}</p>` : ''}
+    <p>${c.descripcion}</p>
+    ${datos.length ? `<dl class="cm-datos">${datos.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}
+    ${listaCurso('Lo que aprenderás', c.temario)}
+    ${listaCurso('Incluye', c.incluye, 'inc')}
+    ${c.ideal ? `<h4>Ideal para</h4><p>${c.ideal}</p>` : ''}
+    <button type="button" class="pill g" data-wa>Quiero inscribirme →</button>
+    <p class="legal">Se abrirá WhatsApp para pedir fechas, cupos y valor del curso.</p>`;
+  showOverlay(cm); cmBody.scrollTop = 0; $('.pop-card', cm).scrollTop = 0; $('#cm-close').focus();
+}
+function closeCurso() {
+  if (cm.hidden || cm.classList.contains('closing')) return;
+  hideOverlay(cm, () => { if (cmFocus && cmFocus.focus) cmFocus.focus({ preventScroll: true }); });
+}
+function waCurso(c) {      // sin número configurado: abre el wa.link de Studio K y deja el mensaje copiado
+  const msg = `¡Hola! Quiero información del curso ${c.nombre}${c.sub ? ' (' + c.sub + ')' : ''} de Studio K 🖤`;
+  const num = CONFIG.WHATSAPP.replace(/\D/g, '');
+  if (!num && navigator.clipboard) navigator.clipboard.writeText(msg).catch(() => {});
+  window.open(num ? `https://wa.me/${num}?text=${encodeURIComponent(msg)}` : CONFIG.WHATSAPP_LINK, '_blank');
+}
+cmBody.addEventListener('click', e => { if (e.target.closest('[data-wa]') && cmCurso) waCurso(cmCurso); });
+cmImg.addEventListener('click', () => zoom(cmImg));
+$('#cm-close').addEventListener('click', closeCurso);
+cm.addEventListener('click', e => { if (e.target === cm) closeCurso(); });
 
 $('#bk-close').addEventListener('click', closeBookingModal);
 $('#sv-close').addEventListener('click', closePreview);
 pm.addEventListener('click', e => { if (e.target === pm) closePreview(); });
 $('#sv-book').addEventListener('click', e => openBookingModal(e.currentTarget.dataset.id));
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { if (!pm.hidden) closePreview(); else closeBookingModal(); }
+  if (d.open) return;                                  // el visor de fotos se cierra solo con Esc
+  if (e.key === 'Escape') { if (!cm.hidden) closeCurso(); else if (!pm.hidden) closePreview(); else closeBookingModal(); }
   if (!pm.hidden && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) goSlide(slideIdx() + (e.key === 'ArrowRight' ? 1 : -1));
 });
 // Botones "Agendar cita" de la página (navbar, hero, footer...)
@@ -220,12 +339,17 @@ $('#picks').addEventListener('change', e => {
   const cb = e.target; cb.checked ? selected.add(cb.value) : selected.delete(cb.value);
   cb.closest('.pick').classList.toggle('sel', cb.checked); updateSummary();
 });
+// abono para agendar: se muestra siempre la cifra (también $0 mientras no esté definida)
+const pesos = n => '$' + (n || 0).toLocaleString('es-CO');
+const abonoDe = lista => lista.reduce((a, s) => a + (s.abono || 0), 0);
 function updateSummary() {
   const lista = SERVICIOS.filter(s => selected.has(s.id));
-  const total = lista.reduce((a, s) => a + s.precio, 0);
+  const total = lista.reduce((a, s) => a + s.precio, 0), abono = abonoDe(lista);
   $('#summary').innerHTML = `<h4>TU SELECCIÓN (${lista.length})</h4>` +
-    (lista.length ? `<ul>${lista.map(s => `<li><span>${s.nombre}</span><span>${money(s.precio)}</span></li>`).join('')}</ul>` : '<p style="margin:0 0 8px;color:var(--mute)">Aún no has elegido servicios.</p>') +
-    `<div class="tot"><span>Subtotal confirmado:</span><span>${money(total)}</span></div>`;
+    (lista.length ? `<ul>${lista.map(s => `<li><span>${s.nombre}<small>Abono para agendar: ${pesos(s.abono)}</small></span><span>${money(s.precio)}</span></li>`).join('')}</ul>` : '<p style="margin:0 0 8px;color:var(--mute)">Aún no has elegido servicios.</p>') +
+    `<div class="tot"><span>Subtotal confirmado:</span><span>${total ? money(total) : '$0'}</span></div>` +
+    (lista.length ? `<div class="abono"><span>Abono para agendar<small>Debes pagarlo para poder agendar tu servicio</small></span><b>${pesos(abono)}</b></div>` : '');
+  $$('.abono-total').forEach(el => { el.textContent = pesos(abono); });
 }
 CONFIG.ESPECIALISTAS.forEach(n => form.elements.especialista.add(new Option(n, n)));
 SEDES.forEach(d => form.elements.sede.add(new Option(d.nombre + ' · ' + d.direccion, d.id)));
@@ -274,8 +398,9 @@ form.addEventListener('submit', e => {      // sin async/await: Safari (iPhone) 
     '',
     'Nombre: ' + form.elements.nombre.value.trim(),
     'Teléfono: +57 ' + form.elements.telefono.value.trim(),
-    'Servicios: ' + lista.map(s => `${s.nombre} (${money(s.precio)})`).join(', '),
+    'Servicios: ' + lista.map(s => `${s.nombre} (${money(s.precio)}${s.extra ? ' · ' + extraTxt(s.extra) : ''})`).join(', '),
     'Subtotal: ' + money(lista.reduce((a, s) => a + s.precio, 0)),
+    'Abono para agendar: ' + pesos(abonoDe(lista)),
     'Sede: ' + sede.nombre + ' · ' + sede.direccion,
     'Especialista: ' + form.elements.especialista.value,
     'Fecha: ' + fechaLegible(form.elements.fecha.value),
@@ -291,117 +416,296 @@ form.addEventListener('submit', e => {      // sin async/await: Safari (iPhone) 
 });
 $('#nueva').addEventListener('click', closeBookingModal);
 
-/* ---------- Visor de fotos (código original) ---------- */
-const d = $('#d'), di = $('img', d);
-$$('.two img.r').forEach(e => e.addEventListener('click', () => {
-  const i = e.tagName == 'IMG' ? e : $('img', e); di.src = i.src; di.alt = i.alt; d.showModal();
-}));
-d.addEventListener('click', () => d.close());
-d.addEventListener('close', () => d.classList.remove('tall'));
-
-/* ---------- Galería circular de cursos (Lovely Brows) ----------
-   Fotos: edita los <figure> dentro de .cur-ring en index.html (carpeta imagene/cursos/).
-   Arrastra para girar · toca una foto lateral para traerla al frente · toca la del frente para ampliarla. */
+/* ---------- Carrusel de cursos (Lovely Brows) ----------
+   Las tarjetas salen del arreglo CURSOS: la del centro grande y las laterales más pequeñas e inclinadas (3D).
+   Arrastra / desliza o usa las flechas · toca una tarjeta lateral para traerla al centro ·
+   toca la del centro (o "Ver curso") para abrir la ficha completa. Avanza solo y se pausa con el mouse encima.
+   Las tarjetas libres (sin nombre) muestran solo la foto: al tocarlas se amplía. */
 (() => {
-  const stage = $('.cur-stage'), ring = stage && $('.cur-ring', stage);
-  if (!ring) return;
-  const items = [...ring.children], n = items.length;
-  if (!n) return;
-  const step = 360 / n;
-  let rot = 0, vel = 0, down = false, dragging = false, startX = 0, lastX = 0, idle = 0, radius = 0, visible = false, raf = 0;
-  items.forEach(el => el.classList.add('cur-item'));
+  const stage = $('#cf-stage'); if (!stage || !CURSOS.length) return;
+  const n = CURSOS.length, dotsEl = $('#cf-dots'), now = $('#cf-now');
+  const titulo = (c, i) => c.nombre || `foto de alumna ${i + 1}`;
+  stage.innerHTML = CURSOS.map((c, i) => `
+    <article class="cf-card${c.nombre ? '' : ' libre'}" data-i="${i}" aria-roledescription="diapositiva" aria-label="${i + 1} de ${n}: ${titulo(c, i)}">
+      <img src="${encodeURI(c.foto)}" alt="${c.alt || ''}" style="object-position:${c.pos || '50% 40%'}" draggable="false" loading="lazy">
+      ${c.nombre ? `<div class="cf-info">
+        ${c.cat ? `<span class="cf-cat">${c.cat}</span>` : ''}
+        <h3>${c.nombre}</h3>
+        ${c.sub ? `<p class="cf-sub">${c.sub}</p>` : ''}
+        <p class="cf-meta">${metaCurso(c)}</p>
+        <button type="button" class="cf-ver" tabindex="-1">Ver curso →</button>
+      </div>` : ''}
+    </article>`).join('');
+  dotsEl.innerHTML = CURSOS.map((c, i) => `<button type="button" data-i="${i}" aria-label="Ver ${titulo(c, i)}"></button>`).join('');
+  const abrir = i => CURSOS[i].nombre ? openCurso(i) : zoom($('img', cards[i]));   // curso → ficha · libre → foto grande
+  const cards = $$('.cf-card', stage), dotBtns = $$('button', dotsEl);
+  const mod = k => ((k % n) + n) % n;
+  let W = 320, S1 = 240, S2 = 170, pos = 0, target = 0, raf = 0;
 
-  function layout() {
-    const sw = stage.clientWidth;
-    const W = Math.round(Math.min(300, Math.max(150, sw * (sw < 600 ? .46 : .27)))), H = Math.round(W * 4 / 3);
-    radius = Math.round((W + 24) / 2 / Math.tan(Math.PI / n));
-    items.forEach((el, i) => {
-      el.style.width = W + 'px'; el.style.height = H + 'px';
-      el.style.marginLeft = -W / 2 + 'px'; el.style.marginTop = -H / 2 + 'px';
-      el.style.transform = `rotateY(${i * step}deg) translateZ(${radius}px)`;
+  function layout() {                                    // tamaño de las tarjetas según la pantalla
+    const sw = stage.clientWidth, vh = innerHeight || 700, movil = sw < 640;
+    W = movil ? Math.min(sw * .74, 340) : Math.min(420, Math.max(300, sw * .28));
+    let H = W * 1.3;
+    const maxH = Math.max(380, vh * .74);
+    if (H > maxH) { H = maxH; W = H / 1.3; }
+    S1 = W * (movil ? .8 : .74); S2 = W * .52;           // separación de la 1.ª y 2.ª tarjeta lateral
+    stage.style.setProperty('--cw', Math.round(W) + 'px');
+    stage.style.setProperty('--ch', Math.round(H) + 'px');
+    stage.style.setProperty('--stage-h', Math.round(H + 34) + 'px');
+  }
+  function render() {                                    // coloca cada tarjeta según su distancia al centro
+    cards.forEach((el, i) => {
+      let dd = mod(i - pos); if (dd > n / 2) dd -= n;    // -n/2 … n/2 (0 = centro)
+      const a = Math.abs(dd), s = Math.sign(dd);
+      const x = s * (a <= 1 ? a * S1 : S1 + (a - 1) * S2);
+      const op = a <= 2 ? 1 - a * .2 : Math.max(0, 1 - (a - 2) / .6) * .6;
+      el.style.transform = `translate3d(${x.toFixed(1)}px,0,${(-a * 80).toFixed(1)}px) rotateY(${(-s * Math.min(a, 1) * 22).toFixed(2)}deg) scale(${(1 - Math.min(a, 2) * .13).toFixed(3)})`;
+      el.style.opacity = op.toFixed(3);
+      el.style.zIndex = String(100 - Math.round(a * 10));
+      el.style.visibility = op < .02 ? 'hidden' : '';
+      el.style.setProperty('--dim', (Math.min(a, 2) * .24).toFixed(3));
     });
   }
-  function render() {
-    ring.style.transform = `translateZ(${-radius}px) rotateY(${rot}deg)`;
-    items.forEach((el, i) => {
-      const a = ((i * step + rot) % 360 + 540) % 360 - 180;   // -180..180, 0 = al frente
-      const k = Math.abs(a) / 180;                              // 0 frente, 1 atrás
-      el.style.opacity = (1 - k * .6).toFixed(2);
-      el.style.filter = `brightness(${(1 - k * .35).toFixed(2)})`;
-      el.classList.toggle('front', Math.abs(a) < step / 2);
+  function sync() {                                      // tarjeta activa, puntitos y lectores de pantalla
+    const k = mod(target), foco = stage.contains(document.activeElement) && document.activeElement !== stage;
+    cards.forEach((el, i) => {
+      const on = i === k;
+      el.classList.toggle('on', on);
+      el.setAttribute('aria-hidden', on ? 'false' : 'true');
+      const ver = $('.cf-ver', el); if (ver) ver.tabIndex = on ? 0 : -1;
     });
+    dotBtns.forEach((b, i) => { b.classList.toggle('on', i === k); b.setAttribute('aria-current', i === k ? 'true' : 'false'); });
+    now.textContent = `${k + 1} de ${n}: ${titulo(CURSOS[k], k)}`;
+    if (foco) { const ver = $('.cf-ver', cards[k]); (ver || stage).focus({ preventScroll: true }); }   // el foco sigue a la tarjeta del centro
   }
-  function tick() {                                          // inercia + giro lento cuando está quieto
-    if (!dragging) {
-      rot += vel; vel *= .94;
-      if (Math.abs(vel) < .01) vel = 0;
-      if (!reduce && vel === 0 && ++idle > 90) rot -= .12;
-    }
+  function animate() {
+    pos += (target - pos) * .14;
+    if (Math.abs(target - pos) < .002) pos = target;
     render();
-    raf = visible ? requestAnimationFrame(tick) : 0;          // se pausa si la galería no está en pantalla
+    raf = pos !== target ? requestAnimationFrame(animate) : 0;
   }
-  function spinTo(t) {
-    idle = 0; vel = 0;
-    if (reduce) { rot = t; render(); return; }
-    const from = rot, t0 = performance.now();
-    (function a(now) {
-      const p = Math.min(1, (now - t0) / 600), e = 1 - Math.pow(1 - p, 3);
-      rot = from + (t - from) * e; render();
-      if (p < 1 && !dragging) requestAnimationFrame(a);
-    })(t0);
+  function go(t) {
+    target = t; sync();
+    if (reduce) { pos = t; render(); return; }
+    if (!raf) raf = requestAnimationFrame(animate);
   }
-  const bringToFront = i => spinTo(rot + ((-i * step - rot) % 360 + 540) % 360 - 180);
-  const openFront = () => { const f = $('.cur-item.front img', ring); if (f) { di.src = f.src; di.alt = f.alt; d.classList.add('tall'); d.showModal(); } };
+  const goTo = i => { let dd = mod(i - target); if (dd > n / 2) dd -= n; go(target + dd); };   // por el camino más corto
+  const next = () => go(target + 1), prev = () => go(target - 1);
 
-  // Arrastrar: la captura del puntero empieza solo tras moverse 6px, así el toque simple sigue siendo un clic
-  stage.addEventListener('pointerdown', e => { down = true; dragging = false; startX = lastX = e.clientX; vel = 0; idle = 0; });
+  // Avance automático: cada 5 s, solo si está en pantalla, sin mouse encima y sin ficha abierta
+  let timer = 0, visible = false, paused = false;
+  function kick() { clearTimeout(timer); if (!reduce) timer = setTimeout(auto, 5000); }
+  function auto() { if (visible && !paused && !down && cm.hidden && !document.hidden) next(); kick(); }
+
+  // Arrastrar / deslizar: empieza tras moverse 6 px, así un toque simple sigue siendo un clic
+  let down = false, moved = false, startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0;
+  stage.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    cancelAnimationFrame(raf); raf = 0;
+    down = true; moved = false; startX = lastX = e.clientX; startPos = pos; lastT = performance.now(); vel = 0;
+  });
   stage.addEventListener('pointermove', e => {
     if (!down) return;
-    if (!dragging && Math.abs(e.clientX - startX) > 6) { dragging = true; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); }
-    if (!dragging) return;
-    const dx = e.clientX - lastX; lastX = e.clientX;
-    rot += dx * .35; vel = dx * .35; idle = 0;
+    const dx = e.clientX - startX;
+    if (!moved) {
+      if (Math.abs(dx) < 6) return;
+      moved = true; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId);
+    }
+    const t = performance.now(); vel = (e.clientX - lastX) / Math.max(1, t - lastT); lastX = e.clientX; lastT = t;
+    pos = startPos - dx / S1; render();
   });
-  const end = () => { down = false; stage.classList.remove('drag'); setTimeout(() => { dragging = false; }); };
-  stage.addEventListener('pointerup', end);
-  stage.addEventListener('pointercancel', end);
+  const release = () => {
+    if (!down) return;
+    down = false; stage.classList.remove('drag');
+    if (moved) {
+      let t = Math.round(pos);
+      if (t === Math.round(startPos) && Math.abs(vel) > .35) t += vel < 0 ? 1 : -1;   // gesto rápido = una tarjeta
+      go(t); setTimeout(() => { moved = false; });                                    // ignora el clic que sigue al arrastre
+    } else if (pos !== target && !raf) raf = requestAnimationFrame(animate);           // termina la animación pendiente
+    kick();
+  };
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
   stage.addEventListener('click', e => {
-    if (dragging) return;
-    const el = e.target.closest('.cur-item'); if (!el) return;
-    el.classList.contains('front') ? openFront() : bringToFront(items.indexOf(el));
+    if (moved) return;
+    const card = e.target.closest('.cf-card'); if (!card) return;
+    const i = +card.dataset.i;
+    i === mod(target) ? abrir(i) : goTo(i);
+    kick();
   });
 
-  // Teclado: flechas giran, Enter amplía la foto del frente
-  stage.tabIndex = 0;
+  // Teclado: flechas cambian de curso, Enter abre la ficha
   stage.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') spinTo(Math.round(rot / step) * step - step);
-    if (e.key === 'ArrowLeft') spinTo(Math.round(rot / step) * step + step);
-    if (e.key === 'Enter') openFront();
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); kick(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); kick(); }
+    else if ((e.key === 'Enter' || e.key === ' ') && e.target === stage) { e.preventDefault(); abrir(mod(target)); }
   });
+  $('#cf-prev').addEventListener('click', () => { prev(); kick(); });
+  $('#cf-next').addEventListener('click', () => { next(); kick(); });
+  dotsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { goTo(+b.dataset.i); kick(); } });
+
+  stage.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') paused = true; });
+  stage.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { paused = false; kick(); } });
+  stage.addEventListener('focusin', () => { paused = true; });
+  stage.addEventListener('focusout', () => { paused = false; kick(); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => { visible = en.isIntersecting; }, { threshold: .35 }).observe(stage);
+  else visible = true;
 
   addEventListener('resize', () => { layout(); render(); });
-  layout(); render();
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !raf) raf = requestAnimationFrame(tick); }).observe(stage);
-  } else { visible = true; raf = requestAnimationFrame(tick); }
+  layout(); render(); sync(); kick();
 })();
 
 renderPicker(); updateSummary(); goStep(1);
 
-/* ---------- Foto de Karen en la portada ---------- */
-if (CONFIG.KAREN_FOTO) $('#karen').innerHTML = `<img src="${CONFIG.KAREN_FOTO}" alt="Karen, dueña de Studio K">`;
+/* ---------- Portada: título palabra por palabra + especialidades que van rotando ---------- */
+(() => {
+  const h = $('#hero-t');
+  if (h && !reduce) {                                   // envuelve cada palabra en <span class="pw"> para animarla
+    let i = 0;
+    const partir = nodo => [...nodo.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(t => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+          const s = document.createElement('span'); s.className = 'pw'; s.style.setProperty('--i', i++); s.textContent = t; frag.appendChild(s);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) partir(n);
+    });
+    partir(h); h.classList.add('split');
+  }
+  const rota = $('#rota'); if (!rota || reduce) return;
+  const items = $$('b', rota); let k = 0;
+  setInterval(() => {
+    if (document.hidden) return;
+    const a = items[k]; k = (k + 1) % items.length; const b = items[k];
+    a.classList.remove('on'); a.classList.add('out'); b.classList.remove('out'); b.classList.add('on');
+    setTimeout(() => a.classList.remove('out'), 750);
+  }, 2600);
+})();
 
-/* ---------- Carrusel de reseñas: duplica las tarjetas para el bucle sin saltos ---------- */
-$$('.marq .track').forEach(t => {
-  const items = [...t.children];
-  items.forEach(el => { const c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelector('img').alt = ''; t.appendChild(c); });
-});
+/* ---------- Portada: lupa de precisión ----------
+   Computador: la lupa sigue al cursor sobre la foto y una luz suave sigue al cursor por el panel negro.
+   Celular: toca la foto (o desliza el dedo de lado) para mover la lupa.
+   Al cargar, la lupa recorre la ceja una vez para mostrar el efecto (con "movimiento reducido" no se mueve sola). */
+(() => {
+  const wrap = $('.hero-wrap'), bg = $('#hero-bg'), foto = bg && $('.hero-foto', bg), lupa = bg && $('.lupa', bg), img = lupa && $('img', lupa);
+  if (!wrap || !foto || !img) return;
+  const Z = 2.3;                                        // aumento de la lupa
+  const fino = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  // Recorrido de la presentación en píxeles de la foto original (1206 × 1283): la ceja de inicio a fin y las pestañas
+  const RUTA = [[230, 700], [420, 470], [650, 340], [960, 330], [800, 700], [520, 450]];
+  let R = 90, x = 0, y = 0, tx = 0, ty = 0, raf = 0, intro = 0, usada = false, toque = false, g = { s: 1, ox: 0, oy: 0 };
 
-/* ---------- Aparición al hacer scroll ---------- */
-const rvSel = '.intro .w>*,.chap-head,.svc,.two>*,.cur-head,.cur-stage,.dark .w>*,.rev-head,.rev-foot,.sede,#sedes .w>p,#sedes .w>h2,.hero .t,.stats>div';
+  function medir() {                                    // dónde y de qué tamaño se ve la foto (object-fit: cover)
+    const W = bg.clientWidth, H = bg.clientHeight, iw = foto.naturalWidth || 1206, ih = foto.naturalHeight || 1283;
+    const s = Math.max(W / iw, H / ih), op = getComputedStyle(foto).objectPosition.split(' ').map(v => parseFloat(v) / 100);
+    g = { s, ox: (W - iw * s) * (isNaN(op[0]) ? .5 : op[0]), oy: (H - ih * s) * (isNaN(op[1]) ? .5 : op[1]) };
+    R = Math.round(Math.max(56, Math.min(100, Math.min(W, H) * .15)));
+    lupa.style.width = lupa.style.height = 2 * R + 'px';
+    img.style.width = iw * s * Z + 'px'; img.style.height = ih * s * Z + 'px';
+    pintar();
+  }
+  function pintar() {                                   // solo transformaciones: se mueve fluido incluso en celular
+    lupa.style.translate = `${(x - R).toFixed(1)}px ${(y - R).toFixed(1)}px`;
+    img.style.transform = `translate3d(${(R - (x - g.ox) * Z).toFixed(1)}px,${(R - (y - g.oy) * Z).toFixed(1)}px,0)`;
+  }
+  function seguir() {
+    x += (tx - x) * .25; y += (ty - y) * .25; pintar();
+    raf = Math.abs(tx - x) + Math.abs(ty - y) > .4 ? requestAnimationFrame(seguir) : 0;
+  }
+  function ir(nx, ny, ya) {
+    tx = nx; ty = ny;
+    if (ya || reduce) { x = nx; y = ny; cancelAnimationFrame(raf); raf = 0; pintar(); } else if (!raf) raf = requestAnimationFrame(seguir);
+  }
+  const ver = v => bg.classList.toggle('lupa-on', v);
+  const visible = () => bg.classList.contains('lupa-on');
+  const parar = () => { usada = true; cancelAnimationFrame(intro); intro = 0; };
+  const enFoto = (e, b) => e.clientX >= b.left + (fino ? b.width * .18 : 0) && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom;
+
+  wrap.addEventListener('pointermove', e => {
+    const b = bg.getBoundingClientRect();
+    if (e.pointerType === 'mouse') {
+      const r = wrap.getBoundingClientRect();
+      wrap.style.setProperty('--mx', (e.clientX - r.left) + 'px'); wrap.style.setProperty('--my', (e.clientY - r.top) + 'px'); wrap.classList.add('luz');
+      if (enFoto(e, b) && !e.target.closest('.t, .hero-badge')) { const oculta = !visible(); parar(); ir(e.clientX - b.left, e.clientY - b.top, oculta); ver(true); }
+      else if (usada) ver(false);
+    } else if (toque) ir(Math.min(b.width, Math.max(0, e.clientX - b.left)), Math.min(b.height, Math.max(0, e.clientY - b.top)));
+  });
+  wrap.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { wrap.classList.remove('luz'); if (usada) ver(false); } });
+  wrap.addEventListener('pointerdown', e => {                       // celular: tocar la foto mueve la lupa ahí
+    if (e.pointerType === 'mouse' || e.target.closest('a, button')) return;
+    const b = bg.getBoundingClientRect(); if (!enFoto(e, b)) return;
+    toque = true; const oculta = !visible(); parar(); ir(e.clientX - b.left, e.clientY - b.top, oculta); ver(true);
+  });
+  const soltar = () => { toque = false; };
+  wrap.addEventListener('pointerup', soltar); wrap.addEventListener('pointercancel', soltar);
+
+  function presentar() {                                // recorrido suave por la ceja (curva Catmull-Rom entre los puntos)
+    if (usada || reduce) return;
+    const pts = RUTA.map(([ix, iy]) => [g.ox + ix * g.s, g.oy + iy * g.s]), dur = 4200, t0 = performance.now();
+    const P = j => pts[Math.max(0, Math.min(pts.length - 1, j))];
+    const cr = (a, b, c, d, t) => .5 * (2 * b + (c - a) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (3 * b - a - 3 * c + d) * t * t * t);
+    ir(pts[0][0], pts[0][1], true); ver(true);
+    const paso = now => {
+      if (usada) return;
+      const p = Math.min(1, (now - t0) / dur), e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      const f = e * (pts.length - 1), k = Math.min(pts.length - 2, Math.floor(f)), u = f - k;
+      ir(cr(P(k - 1)[0], P(k)[0], P(k + 1)[0], P(k + 2)[0], u), cr(P(k - 1)[1], P(k)[1], P(k + 1)[1], P(k + 2)[1], u), true);
+      if (p < 1) intro = requestAnimationFrame(paso);
+      else { intro = 0; if (fino) setTimeout(() => { if (!usada) ver(false); }, 900); }   // en celular se queda sobre la ceja
+    };
+    intro = requestAnimationFrame(paso);
+  }
+  const listo = () => { medir(); setTimeout(presentar, 1400); };
+  foto.complete && foto.naturalWidth ? listo() : foto.addEventListener('load', listo, { once: true });
+  addEventListener('resize', medir);
+})();
+
+/* ---------- Reseñas: los mensajes reales "llegan" uno a uno, como en un chat ----------
+   Empieza cuando el chat aparece en pantalla. Cada mensaje resalta su captura original en el abanico.
+   Tocar una captura la abre completa. Con "movimiento reducido" se ven todos los mensajes de una vez. */
+(() => {
+  const chat = $('#rs-chat'); if (!chat) return;
+  const msgs = $$('.rs-msg', chat), typing = $('.rs-typing', chat), fan = $('#rs-fan'), shots = $$('.rs-shot', fan);
+  const status = $('#rs-status'), replay = $('#rs-replay'), base = status.textContent;
+  let timer = 0, i = 0;
+  fan.addEventListener('click', e => { const b = e.target.closest('.rs-shot'); if (b) zoom($('img', b)); });
+  function marcar(k) {
+    shots.forEach((s, j) => s.classList.toggle('on', j === k));
+    const s = shots[k];                                 // en celular, la tira se desliza hasta la captura del mensaje
+    if (s && fan.scrollWidth > fan.clientWidth + 4) fan.scrollTo({ left: s.offsetLeft - (fan.clientWidth - s.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  const abajo = () => chat.scrollTo({ top: chat.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
+  function paso() {
+    if (i >= msgs.length) { typing.classList.remove('on'); status.textContent = base; status.classList.remove('escribe'); return; }
+    const m = msgs[i], yo = m.classList.contains('yo');
+    typing.classList.toggle('yo', yo); typing.classList.add('on');
+    status.textContent = yo ? 'Studio K está escribiendo…' : 'Clienta escribiendo…'; status.classList.add('escribe');
+    abajo();
+    timer = setTimeout(() => {
+      typing.classList.remove('on'); m.classList.add('in'); marcar(+m.dataset.shot || 0); abajo(); i++;
+      timer = setTimeout(paso, 1500);
+    }, Math.min(1700, 650 + m.textContent.length * 10));
+  }
+  function play() { clearTimeout(timer); msgs.forEach(m => m.classList.remove('in')); chat.classList.add('play'); chat.scrollTop = 0; i = 0; paso(); }
+  replay.addEventListener('click', play);
+  if (reduce || !('IntersectionObserver' in window)) { marcar(0); return; }
+  chat.classList.add('play');                           // ocultos hasta que el chat aparece en pantalla
+  const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); play(); } }, { threshold: .45 });
+  io.observe(chat);
+})();
+
+/* ---------- Aparición suave al hacer scroll ---------- */
+const rvSel = '.intro .w>*,.chap-head,.svc,.cur-head,.cf,.dark .w>*,.rs-head>*,.rs-stage,.rs-foot,.sede,#sedes .w>p,#sedes .w>h2,.stats>div';
 const rvEls = $$(rvSel);
 if ('IntersectionObserver' in window && !reduce) {
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target; el.classList.add('in'); io.unobserve(el);
+    setTimeout(() => { el.style.transitionDelay = ''; }, 1200);   // quita el retraso para que el efecto al pasar el mouse sea inmediato
+  }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
   rvEls.forEach((el, i) => { el.classList.add('rv'); el.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(el); });
 }
 
@@ -418,4 +722,39 @@ if ('IntersectionObserver' in window && !reduce) {
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(place); } }, { passive: true });
   addEventListener('resize', place); place();
+})();
+
+/* ---------- Sede CC San Andresito El Puppy: video cinemático al hacer scroll ----------
+   Mientras la sección está fija (sticky), el avance del scroll (0 → 1) se guarda en --p y --k:
+   el marco del video se abre de tarjeta a pantalla completa, el título sube y los textos se turnan.
+   El video solo se reproduce cuando está en pantalla (ahorra batería y datos). */
+(() => {
+  const tour = $('#sede-puppy'); if (!tour) return;
+  const trackEl = $('.tour-track', tour), video = $('.tour-video', tour), steps = $$('.tour-step', tour);
+  const clamp = v => Math.min(1, Math.max(0, v));
+  let ticking = false, cur = 0;
+
+  const update = () => {
+    ticking = false;
+    const r = trackEl.getBoundingClientRect(), dist = r.height - innerHeight;
+    const p = dist > 0 ? clamp(-r.top / dist) : 0;
+    tour.style.setProperty('--p', p.toFixed(4));
+    tour.style.setProperty('--k', clamp(p / .35).toFixed(4));           // apertura del marco (primer 35 % del recorrido)
+    const i = Math.min(steps.length - 1, Math.floor(clamp((p - .3) / .6) * steps.length));
+    if (i !== cur) { steps[cur].classList.remove('on'); steps[i].classList.add('on'); cur = i; }
+  };
+
+  if (reduce) tour.classList.add('static');                            // movimiento reducido: sección normal, sin sticky
+  else {
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener('resize', update); update();
+  }
+
+  if (!video) return;
+  if (reduce) { video.removeAttribute('autoplay'); video.pause(); video.controls = true; return; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { const pr = video.play(); if (pr) pr.catch(() => {}); } else video.pause();
+    }, { threshold: .1 }).observe(tour);
+  }
 })();

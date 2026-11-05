@@ -1,8 +1,62 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8">
+<html lang="es-CO"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Studio K</title>
+
+<!-- ===== SEO: lo que Google muestra en los resultados de búsqueda ===== -->
+<title>Studio K | Diseño de cejas, micropigmentación y lifting coreano en Barranquilla</title>
+<meta name="description" content="Studio K en Barranquilla: diseño de cejas, micropigmentación efecto polvo, laminado, lifting coreano y extensiones de pestañas. Cursos Lovely Brows con certificado. Agenda tu cita por WhatsApp.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="imagene/logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="imagene/logo.jpg">
+
+<!-- ===== Vista previa al compartir el enlace (WhatsApp, Facebook, Instagram, X) ===== -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:site_name" content="Studio K">
+<meta property="og:title" content="Studio K · Cejas y pestañas en Barranquilla">
+<meta property="og:description" content="Diseño de cejas, micropigmentación, lifting coreano y extensiones de pestañas. Agenda tu cita por WhatsApp.">
+<meta property="og:image:alt" content="Primer plano de un ojo con su ceja y pestañas">
+<meta name="twitter:card" content="summary_large_image">
+<!-- CUANDO TENGAS TU DOMINIO: cambia https://TU-DOMINIO.com por tu dirección real y quita las marcas de comentario
+     (el <!‑‑ de arriba y el ‑‑> de abajo) para activar estas 4 líneas:
+<link rel="canonical" href="https://TU-DOMINIO.com/">
+<meta property="og:url" content="https://TU-DOMINIO.com/">
+<meta property="og:image" content="https://TU-DOMINIO.com/imagene/servicios/portada%20pagina.PNG">
+<meta name="twitter:image" content="https://TU-DOMINIO.com/imagene/servicios/portada%20pagina.PNG">
+-->
+
+<!-- Fuentes: se cargan aquí (no dentro del CSS) para que la página aparezca más rápido -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Ficha del negocio para Google (datos reales de la página; agrega teléfono y dirección cuando los tengas) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BeautySalon",
+  "name": "Studio K",
+  "description": "Diseño de cejas, micropigmentación, laminado, lifting coreano y extensiones de pestañas en Barranquilla. Cursos de formación Lovely Brows con certificado.",
+  "image": "imagene/servicios/portada%20pagina.PNG",
+  "logo": "imagene/logo.jpg",
+  "address": { "@type": "PostalAddress", "addressLocality": "Barranquilla", "addressRegion": "Atlántico", "addressCountry": "CO" },
+  "areaServed": { "@type": "City", "name": "Barranquilla" },
+  "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "17:00" }],
+  "sameAs": ["https://www.instagram.com/studiok_bq"],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diseño de cejas" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cejas semipermanentes" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Micropigmentación de cejas" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Laminado de cejas" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Lifting coreano de pestañas" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Extensiones de pestañas" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Curso de diseño de cejas Lovely Brows" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Curso de lifting coreano técnica fusión" } }
+  ]
+}
+</script>
 </head><body>
 
 <!-- NAVBAR FIJA -->
@@ -15,19 +69,25 @@
 </header>
 
 <main id="top">
-<!-- HERO -->
-<div class="hero-wrap dkt">
-<div class="hero-bg" aria-hidden="true"><img src="imagene/servicios/portada%20pagina.PNG" alt="" fetchpriority="high" decoding="async"></div>
+<!-- PORTADA: la misma foto + "lupa de precisión" (pasa el cursor o toca la foto y se ve cada pelo de la ceja).
+     script.js mueve la lupa, anima el título palabra por palabra y rota las especialidades. -->
+<section class="hero-wrap dkt" aria-labelledby="hero-t">
+<div class="hero-bg" id="hero-bg">
+<img class="hero-foto" src="imagene/servicios/portada%20pagina.PNG" width="1206" height="1283" alt="Primer plano de un ojo con su ceja y pestañas" fetchpriority="high">
+<span class="lupa" aria-hidden="true"><img src="imagene/servicios/portada%20pagina.PNG" alt=""></span>
+</div>
 <div class="hero">
 <div class="t">
-<p class="k">Barranquilla, Colombia </p>
-<h1>Bienvenida al paraíso de las <i>cejas.</i></h1>
-<p class="l">Diseño, micropigmentación, lifting coreano y pestañas, pensados para tu rostro.</p>
+<p class="k">Studio K · Barranquilla</p>
+<h1 id="hero-t">Cejas que hacen <i>brillar</i> tu mirada.</h1>
+<p class="hero-rota"><span class="sr">Especialistas en diseño de cejas, micropigmentación, lifting coreano y extensiones de pestañas.</span><span aria-hidden="true">Especialistas en <span class="rota" id="rota"><b class="on">diseño de cejas</b><b>micropigmentación</b><b>lifting coreano</b><b>extensiones de pestañas</b></span></span></p>
+<p class="l">Técnicas pensadas para tu rostro, con resultados sutiles, elegantes y que se ven como tú.</p>
 <div class="btns"><a class="pill g" href="#reservar">Agenda tu cita</a><a class="pill o" href="#servicios">Ver servicios</a></div>
+<p class="hero-pista"><span class="pc">✦ Pasa el cursor por la foto y descubre cada detalle</span><span class="cel">✦ Toca la foto para ver cada detalle</span></p>
 </div>
-<div class="arch"><div class="karen" id="karen"><span>Foto de Karen</span><small>Próximamente</small></div><span class="tag">Lifting coreano</span></div>
 </div>
-</div>
+<a class="hero-badge" href="#servicios" aria-label="Ver servicios"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="hb-c" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs><text><textPath href="#hb-c" textLength="280" lengthAdjust="spacing">STUDIO K · CEJAS · PESTAÑAS ·</textPath></text></svg><span aria-hidden="true">↓</span></a>
+</section>
 
 <div class="mq dkt" aria-hidden="true"><div><span>diseño de cejas</span><span>micropigmentación</span><span>lifting coreano</span><span>pestañas híbridas</span><span>semipermanente</span><span>formación</span><span>diseño de cejas</span><span>micropigmentación</span><span>lifting coreano</span><span>pestañas híbridas</span><span>semipermanente</span><span>formación</span></div></div>
 
@@ -48,29 +108,24 @@
 <div class="svc-list" id="list-pestanas"></div>
 </div></div>
 
-<section class="dark dkt"><div class="w two f2">
-<img class="r" src="imagene/limpieza.jpg" alt="Limpieza de cejas antes del servicio" loading="lazy">
-<div><h2>Un protocolo que <i>cuida tus cejas.</i></h2>
-<p class="lead">Cada servicio empieza con limpieza y termina con un resultado que se ve como tú.</p>
-<a class="pill" href="#reservar">Reservar</a></div>
-</div></section>
-
-<!-- CAPACITACIONES: galería circular de cursos (fotos en imagene/cursos/; script.js la anima) -->
+<!-- CAPACITACIONES: carrusel de cursos. Las tarjetas y las fichas se generan en script.js
+     desde el arreglo CURSOS (nombre, foto, duración, temario...). Las fotos están en imagene/cursos/. -->
 <section id="capacitaciones" class="cur"><div class="w cur-head">
+<p class="kick">Capacitaciones</p>
 <h2>Aprende con <i>Lovely Brows.</i></h2>
-<p class="lead">Formación para futuras artistas: diseño de cejas avanzado y maquillaje semipermanente, en 2 días intensivos para ofrecer un servicio seguro y profesional.</p>
+<p class="lead">Formación para futuras artistas: cursos intensivos de cejas y pestañas con certificado Studio K. Toca cada curso para ver el programa completo.</p>
 <a class="pill g" href="https://wa.link/8qvs7m">Pedir información</a>
 </div>
-<div class="cur-stage" role="region" aria-roledescription="carrusel" aria-label="Fotos del curso Lovely Brows. Flechas para girar, Enter para ampliar">
-<div class="cur-ring">
-<figure><img src="imagene/cursos/curso1.jpg" alt="Alumna del curso Lovely Brows · foto 1" loading="lazy"></figure>
-<figure><img src="imagene/cursos/curso2.jpg" alt="Alumna del curso Lovely Brows · foto 2" loading="lazy"></figure>
-<figure><img src="imagene/cursos/curso3.jpg" alt="Alumna del curso Lovely Brows · foto 3" loading="lazy"></figure>
-<figure><img src="imagene/cursos/curso4.jpg" alt="Alumna del curso Lovely Brows · foto 4" loading="lazy"></figure>
-<figure><img src="imagene/cursos/curso5.jpg" alt="Alumna del curso Lovely Brows · foto 5" loading="lazy"></figure>
-<figure><img src="imagene/cursos/curso6.jpg" alt="Alumna del curso Lovely Brows · foto 6" loading="lazy"></figure>
-</div></div>
-<p class="cur-hint">Desliza para ver más</p>
+<div class="cf">
+<div class="cf-stage" id="cf-stage" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Cursos de Studio K. Usa las flechas para cambiar de curso y Enter para ver el programa"></div>
+<div class="cf-ctrl">
+<button type="button" class="cf-arrow" id="cf-prev" aria-label="Curso anterior">‹</button>
+<div class="cf-dots" id="cf-dots"></div>
+<button type="button" class="cf-arrow" id="cf-next" aria-label="Curso siguiente">›</button>
+</div>
+<p class="sr" id="cf-now" aria-live="polite"></p>
+</div>
+<p class="cur-hint">Desliza o usa las flechas · toca un curso para ver su programa</p>
 </section>
 
 <section class="dark dkt" id="sobre-mi"><div class="w">
@@ -79,13 +134,71 @@
 <div class="stats"><div><b>10,9k</b><span>Comunidad en Instagram</span></div><div><b>+390</b><span>Trabajos publicados</span></div></div>
 </div></section>
 
-<!-- RESEÑAS (carrusel infinito; script.js duplica las tarjetas para el bucle) -->
-<section id="resenas" class="resenas"><div class="w">
-<div class="rev-head"><div><p class="kick">Reseñas</p><h2>Lo que dicen <i>nuestras clientas.</i></h2><p class="lead" style="margin:0">Mensajes reales que recibimos después de cada cita.</p></div><div><p class="stars" aria-label="5 estrellas">★★★★★</p></div></div>
+<!-- RESEÑAS: los mensajes reales de las clientas "llegan" uno a uno como en un chat (script.js los anima).
+     El texto de cada burbuja está copiado tal cual de su captura en imagene/reseñas/.
+     Para agregar una reseña: copia un <li class="rs-msg"> con el texto EXACTO y la hora de la captura, y agrega la
+     captura como otro <button class="rs-shot"> en el abanico. data-shot = posición de su captura en el abanico (desde 0).
+     class="rs-msg yo" = mensaje enviado por Studio K (burbuja blanca a la derecha). -->
+<section id="resenas" class="rs" aria-labelledby="rs-t">
+<div class="w rs-head">
+<p class="kick">Reseñas</p>
+<h2 id="rs-t">Mensajes que nos <i>motivan.</i></h2>
+<p class="lead">Palabras reales de nuestras clientas, tal como nos llegaron. Toca una captura para verla completa.</p>
 </div>
-<div class="marq" aria-label="Reseñas de clientas"><div class="track"><figure class="rev"><img src="imagene/reseñas/reseña5.jpg" alt="Reseña de una clienta: tú haces un trabajo impecable" loading="lazy" style="object-position:center 40%"></figure><figure class="rev"><img src="imagene/reseñas/reseña1.jpg" alt="Reseña de una clienta: amé mis cejas hoy más que nunca" loading="lazy" style="object-position:center 22%"></figure><figure class="rev"><img src="imagene/reseñas/reseña6.jpg" alt="Reseña de una clienta: vivo enamorada de las cejas de mi prima" loading="lazy" style="object-position:center 12%"></figure><figure class="rev"><img src="imagene/reseñas/reseña2.jpg" alt="Reseña de una clienta: excelente servicio, recomendadísimo" loading="lazy" style="object-position:center 28%"></figure><figure class="rev"><img src="imagene/reseñas/reseña3.jpg" alt="Reseña de una clienta: me sube hasta el autoestima verme al espejo" loading="lazy" style="object-position:center 12%"></figure><figure class="rev"><img src="imagene/reseñas/reseña4.jpg" alt="Reseña de una clienta: tienes manos mágicas para resaltar la belleza femenina" loading="lazy" style="object-position:center 45%"></figure></div></div>
-<div class="marq"><div class="track back"><figure class="rev"><img src="imagene/reseñas/reseña3.jpg" alt="Reseña de una clienta: me sube hasta el autoestima verme al espejo" loading="lazy" style="object-position:center 12%"></figure><figure class="rev"><img src="imagene/reseñas/reseña5.jpg" alt="Reseña de una clienta: tú haces un trabajo impecable" loading="lazy" style="object-position:center 40%"></figure><figure class="rev"><img src="imagene/reseñas/reseña4.jpg" alt="Reseña de una clienta: tienes manos mágicas para resaltar la belleza femenina" loading="lazy" style="object-position:center 45%"></figure><figure class="rev"><img src="imagene/reseñas/reseña1.jpg" alt="Reseña de una clienta: amé mis cejas hoy más que nunca" loading="lazy" style="object-position:center 22%"></figure><figure class="rev"><img src="imagene/reseñas/reseña2.jpg" alt="Reseña de una clienta: excelente servicio, recomendadísimo" loading="lazy" style="object-position:center 28%"></figure><figure class="rev"><img src="imagene/reseñas/reseña6.jpg" alt="Reseña de una clienta: vivo enamorada de las cejas de mi prima" loading="lazy" style="object-position:center 12%"></figure></div></div>
-<div class="w"><div class="rev-foot"><a class="pill o" href="https://www.instagram.com/studiok_bq" target="_blank" rel="noopener">Ver más en Instagram</a></div></div>
+<div class="w rs-stage">
+<div class="rs-phone">
+<div class="rs-top"><img src="imagene/logo.jpg" alt="" width="160" height="160"><div><b>Clientas Studio K</b><small id="rs-status">Mensajes reales</small></div><span class="rs-stars" role="img" aria-label="5 estrellas">★★★★★</span></div>
+<ol class="rs-chat" id="rs-chat" aria-label="Mensajes de clientas">
+<li class="rs-msg" data-shot="0"><p>Holaaaaaa<br>Se que no son horas de escribir !!<br>Pero te quiero decir que amé mis cejas hoy más que nunca !!</p><time>10:23 p. m.</time></li>
+<li class="rs-msg" data-shot="1"><p>Con gusto, lo bueno siempre se recomienda, tú haces un trabajo impecable y la chica de las pestañas también</p><time>6:15 p. m.</time></li>
+<li class="rs-msg" data-shot="2"><p>Graciaaas, me encanta tu trabajo. Tienes manos mágicas para resaltar la belleza femenina 🥺❤️</p><time>11:42 a. m.</time></li>
+<li class="rs-msg" data-shot="3"><p>Sii están lindas, me sube hasta el autoestima verme al espejo y no verme tan mal</p><time>8:08 p. m.</time></li>
+<li class="rs-msg" data-shot="4"><p>Excelente servicio. Muchas gracias por todo ! Recomendadisimo!!!</p><time>5:08 p. m.</time></li>
+<li class="rs-msg yo" data-shot="5"><p>Qué tal te parecieron las uñas ?</p><time>4:25 p. m.</time></li>
+<li class="rs-msg" data-shot="5"><p>Me encantaron</p><time>4:47 p. m.</time></li>
+<li class="rs-msg yo" data-shot="5"><p>Bueno ya no puedes hacértelas en otro lugar</p><time>4:51 p. m.</time></li>
+<li class="rs-msg" data-shot="5"><p>Pa que pero si me gustó</p><time>4:56 p. m.</time></li>
+<li class="rs-msg" data-shot="5"><p>Me tocó bloquear a la otra jajajaja</p><time>4:56 p. m.</time></li>
+<li class="rs-typing" aria-hidden="true"><i></i><i></i><i></i></li>
+</ol>
+<div class="rs-bar"><a class="rs-input" href="https://wa.link/8qvs7m" target="_blank" rel="noopener">Escríbenos por WhatsApp…</a><button type="button" class="rs-replay" id="rs-replay" aria-label="Ver los mensajes otra vez">↻</button></div>
+</div>
+<div class="rs-fan" id="rs-fan" aria-label="Capturas originales de los mensajes">
+<button type="button" class="rs-shot" style="--k:0"><img src="imagene/reseñas/reseña6.jpg" alt="Captura del mensaje de una clienta: «amé mis cejas hoy más que nunca»" width="1179" height="1494" loading="lazy"></button>
+<button type="button" class="rs-shot" style="--k:1"><img src="imagene/reseñas/reseña2.jpg" alt="Captura del mensaje de una clienta: «tú haces un trabajo impecable y la chica de las pestañas también»" width="993" height="1600" loading="lazy"></button>
+<button type="button" class="rs-shot" style="--k:2"><img src="imagene/reseñas/reseña3.jpg" alt="Captura del mensaje de una clienta: «Tienes manos mágicas para resaltar la belleza femenina»" width="983" height="1600" loading="lazy"></button>
+<button type="button" class="rs-shot" style="--k:3"><img src="imagene/reseñas/reseña4.jpg" alt="Captura del mensaje de una clienta: «me sube hasta el autoestima verme al espejo»" width="1151" height="1600" loading="lazy"></button>
+<button type="button" class="rs-shot" style="--k:4"><img src="imagene/reseñas/reseña5.jpg" alt="Captura del mensaje de una clienta: «Excelente servicio. Muchas gracias por todo»" width="1179" height="1426" loading="lazy"></button>
+<button type="button" class="rs-shot" style="--k:5"><img src="imagene/reseñas/reseña1.jpg" alt="Captura de una conversación con una clienta sobre sus uñas: «Me encantaron»" width="1048" height="1600" loading="lazy"></button>
+</div>
+</div>
+<div class="w rs-foot"><a class="pill o" href="https://www.instagram.com/studiok_bq" target="_blank" rel="noopener">Ver más en Instagram</a></div>
+</section>
+
+<!-- SEDE CC SAN ANDRESITO EL PUPPY: video con efecto de scroll (script.js controla el avance).
+     Guarda el video del local como imagene/sede-video.mp4 (MP4 H.264, idealmente < 15 MB y sin audio). -->
+<section id="sede-puppy" class="tour" aria-labelledby="tour-t">
+<div class="tour-track">
+<div class="tour-sticky">
+<div class="tour-frame">
+<video class="tour-video" autoplay muted loop playsinline preload="metadata" poster="imagene/servicios/portada%20pagina.PNG" aria-label="Recorrido por el interior de la sede Studio K en el Centro Comercial San Andresito El Puppy">
+<source src="imagene/sede-video.mp4" type="video/mp4">
+</video>
+<div class="tour-shade" aria-hidden="true"></div>
+</div>
+<div class="tour-copy dkt">
+<p class="kick">Nuestra sede</p>
+<h2 id="tour-t">Conoce nuestra sede en el Centro Comercial <i>San Andresito El Puppy.</i></h2>
+<div class="tour-steps">
+<p class="tour-step on">Un espacio íntimo y luminoso, pensado para que te relajes mientras cuidamos cada detalle de tu mirada.</p>
+<p class="tour-step">Higiene impecable, luz profesional y productos de alta gama en cada servicio de cejas y pestañas.</p>
+<p class="tour-step">Ven a conocernos: te recibimos con un café y la asesoría que tu rostro merece.</p>
+</div>
+<div class="btns tour-btns"><a class="pill g" href="#reservar">Agenda tu visita</a><a class="pill o" href="https://www.google.com/maps/search/?api=1&amp;query=Centro%20Comercial%20San%20Andresito%20El%20Puppy" target="_blank" rel="noopener">Cómo llegar</a></div>
+</div>
+<div class="tour-bar" aria-hidden="true"><span></span></div>
+</div>
+</div>
 </section>
 
 <!-- SEDES (se generan en script.js: edita el arreglo SEDES) -->
@@ -96,7 +209,6 @@
 <div class="sedes-row" id="sedes-row"></div>
 </div></section>
 
-<!-- SISTEMA DE RESERVAS POR PASOS -->
 </main>
 
 <footer id="contacto" class="dkt"><h2>Tu mirada, <i>a tu medida.</i></h2><a class="pill g" href="#reservar">Agenda tu cita</a><div class="fs" id="foot-sedes"></div><p>Barranquilla · <a href="https://www.instagram.com/studiok_bq">@studiok_bq</a></p></footer>
@@ -115,6 +227,7 @@
 
 <!-- PASO 1 -->
 <div class="step" data-step="1">
+<p class="aviso-abono"><b>Importante:</b> para agendar se paga un <b>abono</b> que depende del servicio. Lo verás en tu resumen antes de enviar la solicitud.</p>
 <div class="chips" id="cats"></div>
 <div class="picks" id="picks"></div>
 <div class="summary" id="summary" aria-live="polite"></div>
@@ -145,7 +258,7 @@
 <p class="sub">Con esto armamos tu solicitud y te escribimos por WhatsApp para confirmar</p>
 <div class="f"><label for="nombre">Nombre completo *</label><input id="nombre" name="nombre" autocomplete="name" required></div>
 <div class="f"><label for="telefono">WhatsApp / Teléfono *</label><div class="tel"><span>+57</span><input id="telefono" name="telefono" type="tel" autocomplete="tel-national" inputmode="tel" required></div></div>
-<div class="info"><h4>¿Qué pasa después?</h4><p>Recibimos tu solicitud y te contactamos para confirmar la cita. Para reservar el espacio se requiere un anticipo del 50%.</p></div>
+<div class="info"><h4>Antes de enviar</h4><p>Para poder agendar tu servicio debes pagar un abono de <b class="abono-total">$0</b>. Recibimos tu solicitud y te contactamos para confirmar la cita.</p></div>
 <p class="err" id="err3" role="alert"></p>
 <button type="submit" class="pill g full" id="send">Enviar solicitud</button>
 <p class="legal">Al enviar se abrirá WhatsApp con tu solicitud lista para mandar.</p>
@@ -158,9 +271,9 @@
 </div>
 </div>
 
-<!-- VISTA PREVIA DE SERVICIO (tarjeta flotante) -->
+<!-- VISTA PREVIA DE SERVICIO ("VER FOTO"): fotos completas + información, sin precios -->
 <div id="svc-modal" class="pop-overlay" role="dialog" aria-modal="true" aria-labelledby="sv-title" hidden>
-<div class="pop-card">
+<div class="pop-card split">
 <button type="button" class="modal-close sm" id="sv-close" aria-label="Cerrar">✕</button>
 <div class="pop-img gal" id="sv-gal">
 <div class="gal-track" id="sv-track"></div>
@@ -169,10 +282,19 @@
 <div class="gal-dots" id="sv-dots"></div>
 </div>
 <div class="pop-body">
-<h3 id="sv-title"></h3><p id="sv-desc"></p>
+<h3 id="sv-title"></h3>
+<p id="sv-desc"></p>
 <ul id="sv-feats"></ul>
 <button type="button" class="pill g" id="sv-book">Agendar este servicio →</button>
 </div></div></div>
+
+<!-- FICHA DE CURSO (se llena desde el arreglo CURSOS de script.js) -->
+<div id="curso-modal" class="pop-overlay" role="dialog" aria-modal="true" aria-labelledby="cm-title" hidden>
+<div class="pop-card split curso">
+<button type="button" class="modal-close sm" id="cm-close" aria-label="Cerrar">✕</button>
+<figure class="pop-img cm-media ph-fit" id="cm-media"><img id="cm-img" alt=""></figure>
+<div class="pop-body cm-body" id="cm-body"></div>
+</div></div>
 
 <script src="script.js" defer></script>
 </body></html>

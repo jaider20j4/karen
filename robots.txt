@@ -1,0 +1,6 @@
+# Permite que Google y los demás buscadores lean toda la página.
+User-agent: *
+Allow: /
+
+# Cuando tengas tu dominio, cambia TU-DOMINIO.com por tu dirección real y quita el # de la línea de abajo:
+# Sitemap: https://TU-DOMINIO.com/sitemap.xml
