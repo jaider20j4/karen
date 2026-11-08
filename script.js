@@ -33,7 +33,7 @@ const SEDES = [
      fotos: ['imagene/servicios/foto1.jpg', 'imagene/servicios/foto2.jpg', 'imagene/servicios/foto3.jpg']
    Un '' deja un espacio en blanco para una foto futura: se ve la flecha › y un marco vacío con el logo.
    Cuando tengas la foto, cambia ese '' por su ruta.
-   extra: retoque o mantenimiento que se muestra debajo del precio base, solo en la tarjeta de la lista
+   extra: retoque o mantenimiento que se muestra debajo del precio, solo en la tarjeta de la lista
    (el modal "VER FOTO" no muestra precios):
      { tipo: 'Retoque' | 'Mantenimiento', precio: 80000, nota: 'cada 15 días' }
    precio 0 (en el servicio o en extra) = se muestra "A consultar".
@@ -61,9 +61,9 @@ const SERVICIOS = [
   { id: 's6', cat: 'Pestañas', nombre: 'Pestañas híbridas', badges: ['HÍBRIDAS'], precio: 120000, abono: 0, desc: 'Más mirada, sin exagerar.', largo: 'Mezcla de técnicas que combina densidad y ligereza para más mirada sin exagerar.', feats: ["Técnica híbrida", "Ideal para volumen natural"],
     extra: { tipo: 'Mantenimiento', precio: 80000, nota: 'cada 15 días' },
     fotos: ['', ''] },
-  { id: 's8', cat: 'Pestañas', nombre: 'Pestañas 3D suave glam', badges: ['3D', 'GLAM'], precio: 0, abono: 0, desc: 'Volumen suave con efecto glam.', largo: 'Extensiones con técnica de volumen 3D que dan una mirada más llena y glamurosa, con un acabado ligero.', feats: ["Técnica de volumen 3D", "Ideal para un look glam"],   // REVISAR PRECIO · REVISAR textos
+  { id: 's8', cat: 'Pestañas', nombre: 'Pestañas volumen tecnológico', badges: ['VOLUMEN'], precio: 130000, abono: 0, desc: 'Extensiones con efecto de volumen.', largo: 'Extensiones de pestañas con técnica de volumen tecnológico para una mirada más llena.', feats: ["Técnica de volumen tecnológico"],   // REVISAR textos
     extra: { tipo: 'Retoque', precio: 0, nota: 'cada 3 semanas' },   // REVISAR PRECIO del retoque
-    fotos: ['imagene/servicios/pestañas 3d suave glam web.jpg', ''] },   // copia liviana (carga más rápido)
+    fotos: ['imagene/servicios/pestañas volumen tecnologico.jpg', ''] },
   { id: 's9', cat: 'Pestañas', nombre: 'Pestañas pelo a pelo 3D suave glam', badges: ['PELO A PELO', '3D'], precio: 0, abono: 0, desc: 'Pelo a pelo con un toque de volumen.', largo: 'Combinación de extensiones pelo a pelo con abanicos 3D para una mirada definida con volumen suave.', feats: ["Técnica mixta pelo a pelo y 3D", "Ideal para volumen suave"],   // REVISAR PRECIO · REVISAR textos
     extra: { tipo: 'Mantenimiento', precio: 0, nota: 'cada 15 días' },   // REVISAR PRECIO del mantenimiento
     fotos: ['imagene/servicios/pestañas pelo a pelo 3d suave glam web.jpg', ''] },   // copia sin los bordes negros de la captura
@@ -138,7 +138,7 @@ Object.entries(GRUPOS).forEach(([listId, cats]) => {
     </div>
     <div class="end">
       <div class="price">
-        <small>PRECIO BASE</small><b>${money(s.precio)}</b>
+        <b>${money(s.precio)}</b>
         ${s.extra ? `<span class="price-x"><em>${s.extra.tipo}</em>${money(s.extra.precio)}${s.extra.nota ? `<i>${s.extra.nota}</i>` : ''}</span>` : ''}
       </div>
       <button type="button" class="agendar" data-id="${s.id}">Agendar →</button>
@@ -585,82 +585,57 @@ renderPicker(); updateSummary(); goStep(1);
   }, 2600);
 })();
 
-/* ---------- Portada: lupa de precisión ----------
-   Computador: la lupa sigue al cursor sobre la foto y una luz suave sigue al cursor por el panel negro.
-   Celular: toca la foto (o desliza el dedo de lado) para mover la lupa.
-   Al cargar, la lupa recorre la ceja una vez para mostrar el efecto (con "movimiento reducido" no se mueve sola). */
+/* ---------- Portada: video integrado ----------
+   · El marco toma la forma exacta del video (se ve completo, sin recortes).
+   · Luz ambiental: los colores del video se proyectan suaves alrededor del marco.
+   · Botón pausar/reproducir y barra de avance. El video se pausa solo cuando no está en pantalla.
+   · Computador: un brillo suave sigue al cursor sobre el video y una luz suave lo sigue por el panel negro.
+   · Con "movimiento reducido" el video no arranca solo. */
 (() => {
-  const wrap = $('.hero-wrap'), bg = $('#hero-bg'), foto = bg && $('.hero-foto', bg), lupa = bg && $('.lupa', bg), img = lupa && $('img', lupa);
-  if (!wrap || !foto || !img) return;
-  const Z = 2.3;                                        // aumento de la lupa
-  const fino = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  // Recorrido de la presentación en píxeles de la foto original (1206 × 1283): la ceja de inicio a fin y las pestañas
-  const RUTA = [[230, 700], [420, 470], [650, 340], [960, 330], [800, 700], [520, 450]];
-  let R = 90, x = 0, y = 0, tx = 0, ty = 0, raf = 0, intro = 0, usada = false, toque = false, g = { s: 1, ox: 0, oy: 0 };
+  const wrap = $('.hero-wrap'), bg = $('#hero-bg'), v = $('.hero-video'); if (!wrap || !bg || !v) return;
+  const frame = $('.hm-frame', bg), glow = $('.hm-glow', bg), barra = $('.hm-prog i', bg), btn = $('#hm-play');
+  const ctx = glow && glow.getContext('2d');
+  let enPantalla = true, pausaManual = reduce, rafProg = 0, timerGlow = 0;
 
-  function medir() {                                    // dónde y de qué tamaño se ve la foto (object-fit: cover)
-    const W = bg.clientWidth, H = bg.clientHeight, iw = foto.naturalWidth || 1206, ih = foto.naturalHeight || 1283;
-    const s = Math.max(W / iw, H / ih), op = getComputedStyle(foto).objectPosition.split(' ').map(v => parseFloat(v) / 100);
-    g = { s, ox: (W - iw * s) * (isNaN(op[0]) ? .5 : op[0]), oy: (H - ih * s) * (isNaN(op[1]) ? .5 : op[1]) };
-    R = Math.round(Math.max(56, Math.min(100, Math.min(W, H) * .15)));
-    lupa.style.width = lupa.style.height = 2 * R + 'px';
-    img.style.width = iw * s * Z + 'px'; img.style.height = ih * s * Z + 'px';
-    pintar();
+  const forma = () => { if (v.videoWidth) wrap.style.setProperty('--ar', (v.videoWidth / v.videoHeight).toFixed(4)); };
+  const pintarGlow = () => { if (ctx && v.readyState >= 2) { try { ctx.drawImage(v, 0, 0, glow.width, glow.height); } catch (e) { /* sin luz ambiental */ } } };
+  const avance = () => {
+    if (v.duration) barra.style.transform = `scaleX(${(v.currentTime / v.duration).toFixed(4)})`;
+    rafProg = !v.paused && enPantalla ? requestAnimationFrame(avance) : 0;
+  };
+  function estado() {                                   // sincroniza botón, barra y luz ambiental con el video
+    const pausado = v.paused;
+    frame.classList.toggle('pausado', pausado);
+    btn.setAttribute('aria-label', pausado ? 'Reproducir video' : 'Pausar video');
+    clearInterval(timerGlow); timerGlow = 0;
+    if (!pausado && enPantalla) { timerGlow = setInterval(pintarGlow, 140); if (!rafProg) rafProg = requestAnimationFrame(avance); }
+    else pintarGlow();
   }
-  function pintar() {                                   // solo transformaciones: se mueve fluido incluso en celular
-    lupa.style.translate = `${(x - R).toFixed(1)}px ${(y - R).toFixed(1)}px`;
-    img.style.transform = `translate3d(${(R - (x - g.ox) * Z).toFixed(1)}px,${(R - (y - g.oy) * Z).toFixed(1)}px,0)`;
-  }
-  function seguir() {
-    x += (tx - x) * .25; y += (ty - y) * .25; pintar();
-    raf = Math.abs(tx - x) + Math.abs(ty - y) > .4 ? requestAnimationFrame(seguir) : 0;
-  }
-  function ir(nx, ny, ya) {
-    tx = nx; ty = ny;
-    if (ya || reduce) { x = nx; y = ny; cancelAnimationFrame(raf); raf = 0; pintar(); } else if (!raf) raf = requestAnimationFrame(seguir);
-  }
-  const ver = v => bg.classList.toggle('lupa-on', v);
-  const visible = () => bg.classList.contains('lupa-on');
-  const parar = () => { usada = true; cancelAnimationFrame(intro); intro = 0; };
-  const enFoto = (e, b) => e.clientX >= b.left + (fino ? b.width * .18 : 0) && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom;
+  const reproducir = () => { const p = v.play(); if (p) p.catch(() => {}); };
 
+  v.addEventListener('loadedmetadata', forma); forma();
+  v.addEventListener('loadeddata', pintarGlow);
+  v.addEventListener('play', estado); v.addEventListener('pause', estado);
+  btn.addEventListener('click', () => { if (v.paused) { pausaManual = false; reproducir(); } else { pausaManual = true; v.pause(); } });
+  if (reduce) { v.removeAttribute('autoplay'); v.pause(); }
+  estado();
+  if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => {
+    enPantalla = en.isIntersecting;
+    if (enPantalla && !pausaManual) reproducir(); else if (!enPantalla) v.pause();
+    estado();
+  }, { threshold: .15 }).observe(bg);
+
+  // Computador: brillo suave sobre el video y luz del panel negro siguiendo el cursor
+  if (reduce || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   wrap.addEventListener('pointermove', e => {
-    const b = bg.getBoundingClientRect();
-    if (e.pointerType === 'mouse') {
-      const r = wrap.getBoundingClientRect();
-      wrap.style.setProperty('--mx', (e.clientX - r.left) + 'px'); wrap.style.setProperty('--my', (e.clientY - r.top) + 'px'); wrap.classList.add('luz');
-      if (enFoto(e, b) && !e.target.closest('.t, .hero-badge')) { const oculta = !visible(); parar(); ir(e.clientX - b.left, e.clientY - b.top, oculta); ver(true); }
-      else if (usada) ver(false);
-    } else if (toque) ir(Math.min(b.width, Math.max(0, e.clientX - b.left)), Math.min(b.height, Math.max(0, e.clientY - b.top)));
+    if (e.pointerType !== 'mouse') return;
+    const r = wrap.getBoundingClientRect(), f = frame.getBoundingClientRect();
+    wrap.style.setProperty('--mx', (e.clientX - r.left) + 'px'); wrap.style.setProperty('--my', (e.clientY - r.top) + 'px'); wrap.classList.add('luz');
+    const dentro = e.clientX >= f.left && e.clientX <= f.right && e.clientY >= f.top && e.clientY <= f.bottom;
+    frame.classList.toggle('brillo', dentro);
+    if (dentro) { frame.style.setProperty('--gx', (e.clientX - f.left) + 'px'); frame.style.setProperty('--gy', (e.clientY - f.top) + 'px'); }
   });
-  wrap.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { wrap.classList.remove('luz'); if (usada) ver(false); } });
-  wrap.addEventListener('pointerdown', e => {                       // celular: tocar la foto mueve la lupa ahí
-    if (e.pointerType === 'mouse' || e.target.closest('a, button')) return;
-    const b = bg.getBoundingClientRect(); if (!enFoto(e, b)) return;
-    toque = true; const oculta = !visible(); parar(); ir(e.clientX - b.left, e.clientY - b.top, oculta); ver(true);
-  });
-  const soltar = () => { toque = false; };
-  wrap.addEventListener('pointerup', soltar); wrap.addEventListener('pointercancel', soltar);
-
-  function presentar() {                                // recorrido suave por la ceja (curva Catmull-Rom entre los puntos)
-    if (usada || reduce) return;
-    const pts = RUTA.map(([ix, iy]) => [g.ox + ix * g.s, g.oy + iy * g.s]), dur = 4200, t0 = performance.now();
-    const P = j => pts[Math.max(0, Math.min(pts.length - 1, j))];
-    const cr = (a, b, c, d, t) => .5 * (2 * b + (c - a) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (3 * b - a - 3 * c + d) * t * t * t);
-    ir(pts[0][0], pts[0][1], true); ver(true);
-    const paso = now => {
-      if (usada) return;
-      const p = Math.min(1, (now - t0) / dur), e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-      const f = e * (pts.length - 1), k = Math.min(pts.length - 2, Math.floor(f)), u = f - k;
-      ir(cr(P(k - 1)[0], P(k)[0], P(k + 1)[0], P(k + 2)[0], u), cr(P(k - 1)[1], P(k)[1], P(k + 1)[1], P(k + 2)[1], u), true);
-      if (p < 1) intro = requestAnimationFrame(paso);
-      else { intro = 0; if (fino) setTimeout(() => { if (!usada) ver(false); }, 900); }   // en celular se queda sobre la ceja
-    };
-    intro = requestAnimationFrame(paso);
-  }
-  const listo = () => { medir(); setTimeout(presentar, 1400); };
-  foto.complete && foto.naturalWidth ? listo() : foto.addEventListener('load', listo, { once: true });
-  addEventListener('resize', medir);
+  wrap.addEventListener('pointerleave', () => { wrap.classList.remove('luz'); frame.classList.remove('brillo'); });
 })();
 
 /* ---------- Reseñas: los mensajes reales "llegan" uno a uno, como en un chat ----------

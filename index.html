@@ -69,12 +69,22 @@
 </header>
 
 <main id="top">
-<!-- PORTADA: la misma foto + "lupa de precisión" (pasa el cursor o toca la foto y se ve cada pelo de la ceja).
-     script.js mueve la lupa, anima el título palabra por palabra y rota las especialidades. -->
+<!-- PORTADA: video grande en el lugar que tenía la foto (derecha en computador, arriba en celular), completo y
+     fundido con el negro. Para cambiarlo: reemplaza imagene/video/video portada.mp4 (MP4 cuadrado, sin audio, ojalá < 5 MB).
+     script.js: luz ambiental con los colores del video, brillo con el cursor, pausar/reproducir, barra de avance,
+     título palabra por palabra y especialidades que rotan. -->
 <section class="hero-wrap dkt" aria-labelledby="hero-t">
 <div class="hero-bg" id="hero-bg">
-<img class="hero-foto" src="imagene/servicios/portada%20pagina.PNG" width="1206" height="1283" alt="Primer plano de un ojo con su ceja y pestañas" fetchpriority="high">
-<span class="lupa" aria-hidden="true"><img src="imagene/servicios/portada%20pagina.PNG" alt=""></span>
+<canvas class="hm-glow" width="40" height="40" aria-hidden="true"></canvas>
+<div class="hm-frame">
+<video class="hero-video" autoplay muted loop playsinline preload="auto" aria-label="Video de cejas y pestañas de Studio K">
+<source src="imagene/video/video%20portada.mp4" type="video/mp4">
+</video>
+<span class="hm-glare" aria-hidden="true"></span>
+<span class="hm-prog" aria-hidden="true"><i></i></span>
+<button type="button" class="hm-play" id="hm-play" aria-label="Pausar video"><svg class="i-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+</div>
+<span class="hm-chip" aria-hidden="true"><img src="imagene/logo.jpg" alt="" width="160" height="160">Studio K</span>
 </div>
 <div class="hero">
 <div class="t">
@@ -83,10 +93,8 @@
 <p class="hero-rota"><span class="sr">Especialistas en diseño de cejas, micropigmentación, lifting coreano y extensiones de pestañas.</span><span aria-hidden="true">Especialistas en <span class="rota" id="rota"><b class="on">diseño de cejas</b><b>micropigmentación</b><b>lifting coreano</b><b>extensiones de pestañas</b></span></span></p>
 <p class="l">Técnicas pensadas para tu rostro, con resultados sutiles, elegantes y que se ven como tú.</p>
 <div class="btns"><a class="pill g" href="#reservar">Agenda tu cita</a><a class="pill o" href="#servicios">Ver servicios</a></div>
-<p class="hero-pista"><span class="pc">✦ Pasa el cursor por la foto y descubre cada detalle</span><span class="cel">✦ Toca la foto para ver cada detalle</span></p>
 </div>
 </div>
-<a class="hero-badge" href="#servicios" aria-label="Ver servicios"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="hb-c" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs><text><textPath href="#hb-c" textLength="280" lengthAdjust="spacing">STUDIO K · CEJAS · PESTAÑAS ·</textPath></text></svg><span aria-hidden="true">↓</span></a>
 </section>
 
 <div class="mq dkt" aria-hidden="true"><div><span>diseño de cejas</span><span>micropigmentación</span><span>lifting coreano</span><span>pestañas híbridas</span><span>semipermanente</span><span>formación</span><span>diseño de cejas</span><span>micropigmentación</span><span>lifting coreano</span><span>pestañas híbridas</span><span>semipermanente</span><span>formación</span></div></div>
